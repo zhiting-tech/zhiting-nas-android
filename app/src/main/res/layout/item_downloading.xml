@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dp_13"
+    android:paddingBottom="@dimen/dp_13">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_26"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSpeed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvName"
+        tools:src="@drawable/icon_zip" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_30"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize14"
+        app:layout_constraintLeft_toRightOf="@+id/ivLogo"
+        app:layout_constraintRight_toLeftOf="@+id/ivStatus"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="字体可商用.zip" />
+
+    <ProgressBar
+        android:id="@+id/rb"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_6"
+        android:max="100"
+        android:progress="30"
+        android:progressDrawable="@drawable/progressbar_blue"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintRight_toRightOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvSpeed"
+        style="@style/file_detail_time"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintLeft_toLeftOf="@+id/rb"
+        app:layout_constraintTop_toBottomOf="@id/rb"
+        tools:text="155.5MB/502.5MB" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        style="@style/file_detail_time"
+        android:layout_marginRight="@dimen/dp_5"
+        app:layout_constraintBottom_toBottomOf="@id/tvSpeed"
+        app:layout_constraintTop_toTopOf="@id/tvSpeed"
+        app:layout_constraintRight_toLeftOf="@id/ivError"
+        tools:text="54.2KB/s" />
+
+    <ImageView
+        android:id="@+id/ivStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSpeed"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvName"
+        tools:src="@drawable/icon_pause" />
+
+    <ImageView
+        android:id="@+id/ivError"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="@id/tvSpeed"
+        app:layout_constraintTop_toTopOf="@id/tvSpeed"
+        app:layout_constraintRight_toRightOf="@+id/rb"
+        tools:src="@drawable/icon_error_info" />
+</androidx.constraintlayout.widget.ConstraintLayout>

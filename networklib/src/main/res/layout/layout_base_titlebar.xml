@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlTitleBarRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <com.zhiting.networklib.widget.StatusBarView
+        android:id="@+id/sbView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:layout_below="@id/sbView">
+
+
+
+    <ImageView
+        android:id="@+id/ivTitleBarLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_back"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_8"/>
+
+    <TextView
+        android:id="@+id/tvTitleBarLeftText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:maxWidth="@dimen/dp_200"
+        android:layout_toRightOf="@id/ivTitleBarLeft"
+        android:paddingStart="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="标题"
+        android:textColor="@color/appBlack"
+        android:textSize="@dimen/textSize16"
+        android:paddingEnd="@dimen/dp_8"/>
+
+    <TextView
+        android:id="@+id/tvTitleBarText"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textColor="@color/color_3F466"
+        android:textSize="@dimen/textSize18"
+        tools:text="Center"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/ivTitleBarMore"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="@dimen/dp_6"
+        android:paddingEnd="@dimen/dp_20"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tvTitleBarMoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/textSize16"
+        android:enabled="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+    </RelativeLayout>
+
+</RelativeLayout>

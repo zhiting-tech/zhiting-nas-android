@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_c10"
+    android:padding="@dimen/dp_20"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_2"
+        android:layout_marginBottom="@dimen/dp_16"
+        tools:text="确定删除吗？"
+        android:textColor="@color/color_3F4663"
+        android:textSize="@dimen/textSize16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp_2"
+        tools:text="海棠阁2401存储分区正在从“共享-私人分区”改为“共享-家庭专用分区”,已为您后台运行。"
+        android:textColor="@color/color_3F4663"
+        android:textSize="@dimen/textSize14"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/dp_100"
+        android:minHeight="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_22"
+        android:padding="@dimen/dp_14"
+        android:background="@drawable/shape_427aed_c5"
+        android:gravity="center"
+        android:text="@string/common_confirm"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize14"
+        android:textStyle="bold" />
+</LinearLayout>

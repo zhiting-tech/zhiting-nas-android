@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.zhiting.clouddisk.home.activity.DownDetailActivity.OnClickHandler" />
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".home.activity.DownDetailActivity">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbView"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                style="@style/iv_back"
+                android:onClick="@{handler.onClick}" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/text_title"
+                tools:text="下载文件夹1" />
+
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llTop"
+            android:layout_marginLeft="@dimen/dp_17"
+            android:layout_marginRight="@dimen/dp_10" />
+
+        <com.zhiting.networklib.widget.RefreshRecyclerView
+            android:id="@+id/rvFile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:enabledRefresh="false"
+            app:enabledLoadable="false"/>
+
+    </LinearLayout>
+</layout>

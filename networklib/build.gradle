@@ -1,0 +1,67 @@
+plugins {
+    id 'com.android.library'
+    id 'org.greenrobot.greendao' // apply plugin
+}
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding{
+        enabled = true
+    }
+}
+
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    api rootProject.ext.dependencies["gson"]
+    api rootProject.ext.dependencies["okhttp"]
+    api rootProject.ext.dependencies["loggingInterceptor"]
+    api rootProject.ext.dependencies["immersionbar"]
+    api rootProject.ext.dependencies["baseAdapter"]
+    api rootProject.ext.dependencies["eventbus"]
+    api rootProject.ext.dependencies["smartRefreshLayout"]
+    api rootProject.ext.dependencies["smartRefreshHeader"]
+    api rootProject.ext.dependencies["autosize"]
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["converterGson"]
+    api rootProject.ext.dependencies["rxjavaAdapter"]
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["easypermissions"]
+    api rootProject.ext.dependencies["gifImageView"]
+    api rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glideCompiler"]
+    api rootProject.ext.dependencies["multidex"]
+    api rootProject.ext.dependencies["pictureselector"]
+    api rootProject.ext.dependencies["greendao"]
+    api rootProject.ext.dependencies["GsonFactory"]
+
+}

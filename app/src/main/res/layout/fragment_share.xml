@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.zhiting.clouddisk.share.fragment.ShareFragment.OnClickHandler" />
+
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:drawableRight="@drawable/selector_black_up_down_arrow"
+                android:drawablePadding="@dimen/dp_9"
+                android:onClick="@{handler.onClick}"
+                android:padding="@dimen/dp_10"
+                android:text="我的家"
+                android:textColor="@color/color_1A2734"
+                android:textSize="@dimen/textSize18"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:id="@+id/flUpDownload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{handler.onClick}"
+                android:paddingRight="@dimen/dp_6">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:src="@drawable/icon_home_upload" />
+
+                <TextView
+                    android:id="@+id/tvFileCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@drawable/shape_ff0000_c30"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_6"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize8"
+                    android:visibility="gone"
+                    tools:text="26"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <com.zhiting.networklib.widget.RefreshRecyclerView
+            android:id="@+id/rrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>

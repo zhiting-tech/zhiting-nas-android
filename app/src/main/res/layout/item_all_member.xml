@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llParent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_17"
+    android:paddingRight="@dimen/dp_16"
+    android:gravity="center_vertical">
+    <com.zhiting.networklib.widget.CircleImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:src="@drawable/icon_mine_avatar" />
+    <com.zhiting.clouddisk.widget.MediumTextView
+        android:id="@+id/tvName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:drawableRight="@drawable/selected_share_member"
+        android:drawablePadding="@dimen/dp_10"
+        app:strokeWidth="0.1dp"
+        tools:text="小丽suo"
+        style="@style/file_text"/>
+</LinearLayout>

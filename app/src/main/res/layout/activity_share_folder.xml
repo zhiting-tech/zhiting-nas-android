@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.zhiting.clouddisk.home.activity.ShareFolderActivity.OnClickHandler" />
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".home.activity.ShareFolderActivity">
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/sbView"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:padding="@dimen/dp_10"
+                    android:src="@drawable/icon_back"
+                    android:onClick="@{handler.onClick}"/>
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:text="@string/home_share"
+                    android:textColor="@color/color_1A2734"
+                    android:textSize="@dimen/textSize18"
+                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/dp_16"
+                android:paddingRight="@dimen/dp_16"
+                android:gravity="center"
+                android:enabled="false"
+                android:text="@string/common_confirm"
+                android:textColor="@color/color_427aed_a2a7ae_enabled"
+                android:textSize="@dimen/textSize16"
+                android:textStyle="bold"
+                android:onClick="@{handler.onClick}"/>
+        </LinearLayout>
+
+        <com.zhiting.clouddisk.widget.MediumTextView
+            android:id="@+id/tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/llTop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginLeft="@dimen/dp_16"
+            app:strokeWidth="0.1dp"
+            android:text="共享文件(共5个)"
+            style="@style/share_folder_text_gray" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvCount"
+            app:layout_constraintHeight_max="@dimen/dp_200"
+            android:layout_marginTop="@dimen/dp_3"
+            tools:listitem="@layout/item_share_folder"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"/>
+
+        <View
+            android:id="@+id/viewLine"
+            style="@style/view_eee_line"
+            android:layout_marginTop="@dimen/dp_7"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvFolder"/>
+
+        <RelativeLayout
+            android:id="@+id/rlMember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/viewLine"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16">
+            <com.zhiting.clouddisk.widget.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:strokeWidth="0.1dp"
+                android:text="@string/home_share_to"
+                style="@style/share_folder_text_gray" />
+            <com.zhiting.clouddisk.widget.MediumTextView
+                android:id="@+id/tvAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/selected_share_member"
+                android:drawablePadding="@dimen/dp_10"
+                app:strokeWidth="0.1dp"
+                android:text="@string/home_all_select"
+                style="@style/share_folder_text_gray"
+                android:onClick="@{handler.onClick}"/>
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMember"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            app:layout_constraintTop_toBottomOf="@+id/rlMember"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/dp_8"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_member"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,11 @@
+1、Gonet文件上传下载中方法（注意：需要assets中mobile.db复制到手机SD）
+- GetFileDownloader，GetDirDownloader获取下载对象（开始下载.Start, 暂停下载.OnPause, 删除下载.OnDelete）
+- GetDownloadList 获取下载列表
+- GetFileDownloaderById 根据ID获取回下载对象
+- GetDirDownloaderById 根据ID获取回下载对象
+
+- GetFileUploader 获取上传对象（开始上传.Start, 暂停上传.OnPause, 删除上传.OnDelete）参数=url(接口)上传地址|dbPath数据库文件存放目录(不需要文件名字)|filePath文件路径|headerStr header头("{\"scope-token\":\"\(scopeToken)\", \"pwd\":\"\(pwd)\"}")
+  (上传地址|缓存上传中文件本地地址|需要上传的文件所在本地地址|文件名|header)
+- GetUploadList 获取上传列表 参数=url(数据库地址)
+- GetUploaderById 根据ID获取回上传对象
+- CreateTmpFile 首先生成临时文件夹

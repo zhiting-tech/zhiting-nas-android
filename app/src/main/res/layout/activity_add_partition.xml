@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.zhiting.clouddisk.mine.activity.AddPartitionActivity.OnClickHandler" />
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".mine.activity.AddPartitionActivity">
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/sbView"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                style="@style/iv_back"
+                android:onClick="@{handler.onClick}"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/text_title"
+                tools:text="@string/mine_add_partition" />
+
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvDel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="@string/mine_del"
+                android:textColor="@color/color_427AED"
+                android:textSize="@dimen/textSize14"
+                android:textStyle="bold"
+                android:onClick="@{handler.onClick}"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/etName"
+            app:layout_constraintBottom_toBottomOf="@+id/etName"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="@dimen/dp_35"
+            android:text="@string/mine_name"
+            android:textSize="@dimen/textSize14"
+            android:textColor="@color/color_1A2734"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/tvName"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llTop"
+            android:layout_marginRight="@dimen/dp_43"
+            android:layout_marginLeft="@dimen/dp_21"
+            android:layout_marginTop="@dimen/dp_29"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_20"
+            android:paddingBottom="@dimen/dp_18"
+            android:digits="@string/mine_storage_pool_name_digits"
+            android:background="@drawable/shape_eeeff2_c10"
+            android:maxLength="50"
+            android:singleLine="true"
+            android:hint="@string/mine_please_input"
+            android:textSize="@dimen/textSize14"
+            android:textColor="@color/color_1A2734"
+            android:textColorHint="@color/color_A2A7AE"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvCapacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/llCapacity"
+            app:layout_constraintBottom_toBottomOf="@+id/llCapacity"
+            app:layout_constraintLeft_toLeftOf="@+id/tvName"
+            android:text="@string/mine_capacity"
+            android:textSize="@dimen/textSize14"
+            android:textColor="@color/color_1A2734"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/llCapacity"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@+id/etName"
+            app:layout_constraintRight_toRightOf="@+id/etName"
+            app:layout_constraintTop_toBottomOf="@+id/etName"
+            android:layout_marginTop="@dimen/dp_21"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_eeeff2_c10">
+            <LinearLayout
+                android:id="@+id/llMB"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/mine_four_multiply"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:textSize="@dimen/textSize14"
+                    android:textColor="@color/color_1A2734"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/etMBCapacity"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_20"
+                    android:paddingBottom="@dimen/dp_18"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:hint="@string/mine_please_input"
+                    android:textSize="@dimen/textSize14"
+                    android:textColor="@color/color_1A2734"
+                    android:textColorHint="@color/color_A2A7AE"
+                    android:textStyle="bold"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/mine_equal"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/textSize14"
+                    android:textColor="@color/color_1A2734"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvResult"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/dp_9"
+                    android:gravity="center_vertical"
+                    tools:text="3200000"
+                    android:textSize="@dimen/textSize14"
+                    android:textColor="@color/color_1A2734"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etCapacity"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_18"
+                android:background="@null"
+                android:singleLine="true"
+                android:inputType="number"
+                android:hint="@string/mine_please_input"
+                android:maxLength="9"
+                android:textSize="@dimen/textSize14"
+                android:textColor="@color/color_1A2734"
+                android:textColorHint="@color/color_A2A7AE"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tvUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/icon_blue_down_arrow"
+                android:drawablePadding="@dimen/dp_8"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:gravity="center"
+                android:text="@string/mine_mb"
+                android:textColor="@color/color_427AED"
+                android:textSize="@dimen/textSize14"
+                android:textStyle="bold"
+                android:onClick="@{handler.onClick}"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@+id/llCapacity"
+            app:layout_constraintLeft_toLeftOf="@+id/llCapacity"
+            android:text="@string/mine_mb_tips"
+            android:textSize="@dimen/textSize11"
+            android:textColor="@color/color_A2A7AE"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tvSave"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/llCapacity"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/dp_85"
+            android:layout_marginLeft="@dimen/dp_43"
+            android:layout_marginRight="@dimen/dp_43"
+            android:padding="@dimen/dp_19"
+            android:background="@drawable/shape_427aed_c10"
+            android:gravity="center"
+            android:text="@string/mine_save"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold"
+            android:onClick="@{handler.onClick}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

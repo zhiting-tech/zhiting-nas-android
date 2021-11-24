@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.zhiting.clouddisk.home.activity.MoveCopyFileActivity.OnClickHandler" />
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".home.activity.MoveCopyFileActivity">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/sbView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            style="@style/copy_move_title"
+            android:text="@string/home_move_to"/>
+
+        <TextView
+            android:id="@+id/tvCancel"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/copy_move_cancel"
+            android:text="@string/common_cancel"
+            android:onClick="@{handler.onClick}"/>
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="@string/home_root_category"
+            android:textColor="@color/color_A2A7AE" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategory"
+            android:layout_marginTop="@dimen/dp_6"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

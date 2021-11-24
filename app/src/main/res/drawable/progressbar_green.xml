@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <item android:id="@android:id/background"
+        android:layout_width="wrap_content">
+        <shape>
+            <corners android:radius="@dimen/dp_4" />
+
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+
+    <!-- 进度条 -->
+    <item android:id="@android:id/progress">
+<!--        <clip>-->
+<!--            <shape>-->
+<!--                <corners android:radius="@dimen/dp_4" />-->
+<!--                <solid android:color="@color/color_01DBC0" />-->
+<!--            </shape>-->
+<!--        </clip>-->
+        <scale android:scaleWidth="100%"
+            android:drawable="@drawable/progress_bar_ct" />
+    </item>
+
+    <!-- 第二条进度条颜色 -->
+    <item android:id="@android:id/secondaryProgress">
+        <scale android:scaleWidth="100%">
+        <shape>
+                <corners android:radius="@dimen/dp_4" />
+                <solid android:color="@color/white" />
+            </shape>
+        </scale>
+    </item>
+
+
+</layer-list>

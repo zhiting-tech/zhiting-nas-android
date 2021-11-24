@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="view_eee_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/color_eeeeee</item>
+    </style>
+    <style name="file_text">
+        <item name="android:textSize">@dimen/textSize14</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+    </style>
+
+    <style name="file_detail_time">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize10</item>
+        <item name="android:textColor">@color/color_A2A7AE</item>
+    </style>
+
+    <style name="dialog_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="android:paddingTop">@dimen/dp_9</item>
+        <item name="android:textSize">@dimen/textSize16</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="share_folder_text_gray">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize12</item>
+        <item name="android:textColor">@color/color_A2A7AE</item>
+    </style>
+
+    <style name="copy_move_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_10</item>
+        <item name="android:layout_marginLeft">@dimen/dp_17</item>
+        <item name="android:textSize">@dimen/textSize18</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="copy_move_cancel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dp_0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/dp_15</item>
+        <item name="android:paddingRight">@dimen/dp_15</item>
+        <item name="android:textSize">@dimen/textSize14</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+    </style>
+
+    <style name="iv_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:padding">@dimen/dp_10</item>
+        <item name="android:src">@drawable/icon_back</item>
+    </style>
+
+    <style name="text_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxWidth">@dimen/dp_200</item>
+        <item name="android:layout_marginLeft">@dimen/dp_2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingTop">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_10</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+        <item name="android:textSize">@dimen/textSize18</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="up_down_load_text">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/selector_up_download_bg</item>
+        <item name="android:padding">@dimen/dp_14</item>
+        <item name="android:textColor">@color/color_1a2734_a2a7ae</item>
+        <item name="android:textSize">@dimen/textSize14</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="upload_list_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+        <item name="android:textSize">@dimen/textSize12</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+    </style>
+
+    <style name="title_right_black">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/color_1A2734</item>
+        <item name="android:textSize">@dimen/textSize14</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/dp_16</item>
+        <item name="android:paddingRight">@dimen/dp_16</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
+        <item name="android:gravity">center</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!-- 去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+</resources>

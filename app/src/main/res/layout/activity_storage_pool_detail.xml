@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.zhiting.clouddisk.mine.activity.StoragePoolDetailActivity.OnClickHandler" />
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".mine.activity.StoragePoolDetailActivity">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_427AED"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@color/color_427AED"
+            app:layout_constraintTop_toBottomOf="@+id/sbView"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:src="@drawable/icon_white_back"
+                android:onClick="@{handler.onClick}"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mine_storage_pool"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSize18"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="@string/mine_del"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSize14"
+                android:textStyle="bold"
+                android:onClick="@{handler.onClick}"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llTop"
+            app:srlEnableLoadMore="false">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_64"
+                        android:background="@color/color_427AED">
+
+                        <ImageView
+                            android:id="@+id/ivLogo"
+                            android:layout_width="@dimen/dp_55"
+                            android:layout_height="@dimen/dp_60"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:layout_marginTop="@dimen/dp_24"
+                            android:layout_marginLeft="@dimen/dp_27"
+                            android:src="@drawable/icon_storage_pool" />
+
+                        <LinearLayout
+                            android:id="@+id/llName"
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/ivLogo"
+                            app:layout_constraintLeft_toRightOf="@+id/ivLogo"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginRight="@dimen/dp_25"
+                            android:layout_marginLeft="@dimen/dp_21"
+                            android:layout_marginTop="@dimen/dp_4"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@drawable/icon_white_edit"
+                                android:drawablePadding="@dimen/dp_20"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                tools:text="存储池名称001"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/textSize20"
+                                android:textStyle="bold"
+                                android:onClick="@{handler.onClick}"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintLeft_toLeftOf="@+id/llName"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivLogo"
+                            android:layout_marginBottom="@dimen/dp_5"
+                            android:drawableRight="@drawable/icon_white_right_arrow"
+                            android:drawablePadding="@dimen/dp_12"
+                            tools:text="@string/mine_hard_disk_count"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/textSize14"
+                            android:onClick="@{handler.onClick}"/>
+
+
+                        <TextView
+                            android:id="@+id/tvAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+                            app:layout_constraintLeft_toLeftOf="@+id/ivLogo"
+                            android:layout_marginTop="@dimen/dp_30"
+
+                            tools:text="@string/mine_all_capacity"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/textSize12" />
+
+                        <TextView
+                            android:id="@+id/tvSeparable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+                            app:layout_constraintRight_toRightOf="@+id/llName"
+                            android:layout_marginTop="@dimen/dp_30"
+                            tools:text="@string/mine_separable_capacity"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/textSize12" />
+
+                        <ProgressBar
+                            android:id="@+id/rb"
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_8"
+                            app:layout_constraintLeft_toLeftOf="@+id/ivLogo"
+                            app:layout_constraintRight_toRightOf="@+id/llName"
+                            app:layout_constraintTop_toBottomOf="@+id/tvSeparable"
+                            android:layout_marginTop="@dimen/dp_6"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:progressDrawable="@drawable/progressbar_green"
+                            tools:progress="50"
+                            android:max="100" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:paddingTop="@dimen/dp_20"
+                    android:background="@drawable/shape_white_top_c20">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="@string/mine_storage_pool_partition"
+                        android:textColor="@color/color_1A2734"
+                        android:textSize="@dimen/textSize14" />
+
+                    <ImageView
+                        android:id="@+id/ivAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:padding="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:src="@drawable/icon_oval_blue_add"
+                        android:onClick="@{handler.onClick}"/>
+                </RelativeLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPool"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/dp_7_dot_5"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
+                        tools:listitem="@layout/item_storage_pool_detail"/>
+
+                    <include
+                        android:id="@+id/viewEmpty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        layout="@layout/layout_empty"
+                        android:layout_marginTop="@dimen/dp_100"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

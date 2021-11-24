@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_160"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_f2f5fa_c10">
+    <FrameLayout
+        android:id="@+id/flFolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/dp_17"
+        android:layout_marginLeft="@dimen/dp_15">
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/textSize34"
+            android:layout_marginRight="@dimen/dp_2"
+            android:src="@drawable/icon_file" />
+        <ImageView
+            android:id="@+id/ivEncrypt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_home_lock"
+            android:layout_gravity="right|bottom"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/ivThreeDot"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="@+id/flFolder"
+        app:layout_constraintBottom_toBottomOf="@+id/flFolder"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        android:src="@drawable/selector_three_dot"
+        tools:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/ivStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:src="@drawable/icon_folder_updating" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/flFolder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flFolder"
+        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginRight="@dimen/dp_10"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize14"
+        android:textStyle="bold"
+        tools:text="海棠阁001"/>
+
+    <TextView
+        android:id="@+id/tvDistrict"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/flFolder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_10"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:drawableLeft="@drawable/icon_folder_data"
+        android:drawablePadding="@dimen/dp_9"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize12"
+        tools:text="共享-家庭专用分区" />
+
+    <TextView
+        android:id="@+id/tvMember"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/flFolder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDistrict"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:drawableLeft="@drawable/icon_reader"
+        android:drawablePadding="@dimen/dp_9"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize12"
+        tools:text="姐姐、大哥、妹妹..." />
+
+    <LinearLayout
+        android:id="@+id/llResult"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/shape_ccffffff_c10"
+        android:visibility="gone"
+        tools:visibility="visible">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_folder_operate_fail" />
+        <TextView
+            android:id="@+id/tvTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_7"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/mine_del_fail"
+            android:textColor="@color/color_F38252"
+            android:textSize="@dimen/textSize12"/>
+
+        <TextView
+            android:id="@+id/tvOperate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_19"
+            android:paddingRight="@dimen/dp_19"
+            android:background="@drawable/shape_427aed"
+            android:text="@string/mine_retry"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize12"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

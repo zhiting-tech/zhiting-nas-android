@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.zhiting.clouddisk.home.activity.MoveCopyDetailActivity.OnClickHandler" />
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".home.activity.MoveCopyDetailActivity">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/sbView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            style="@style/copy_move_title"
+            android:text="@string/home_move_to"/>
+
+        <TextView
+            android:id="@+id/tvCancel"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/copy_move_cancel"
+            android:text="@string/common_cancel"
+            android:onClick="@{handler.onClick}"/>
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="@string/home_root_category"
+            android:textColor="@color/color_A2A7AE"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_5" />
+
+        <com.zhiting.networklib.widget.RefreshRecyclerView
+            android:id="@+id/rrv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            app:layout_constraintTop_toBottomOf="@+id/rvNavigation"
+            app:layout_constraintBottom_toTopOf="@+id/slBottom"
+            android:layout_marginTop="@dimen/dp_6"/>
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/slBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:hl_shadowColor="@color/color_0d000000"
+            app:hl_shadowHiddenLeft="true"
+            app:hl_shadowHiddenRight="true"
+            app:hl_shadowHiddenBottom="true"
+            app:hl_shadowLimit="@dimen/dp_5">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:orientation="horizontal">
+                <com.zhiting.clouddisk.widget.MediumTextView
+                    android:id="@+id/tvCreate"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_stroke_427aed_c4"
+                    android:padding="@dimen/dp_13"
+                    android:gravity="center"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:text="@string/home_create_file"
+                    android:textColor="@color/color_427AED"
+                    android:textSize="@dimen/textSize14"
+                    app:strokeWidth="0.1dp"
+                    android:onClick="@{handler.onClick}"/>
+
+                <com.zhiting.clouddisk.widget.MediumTextView
+                    android:id="@+id/tvMove"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/dp_13"
+                    android:background="@drawable/shape_427aed"
+                    android:gravity="center"
+                    android:text="@string/home_move_to_here"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize14"
+                    app:strokeWidth="0.1dp"
+                    android:onClick="@{handler.onClick}"/>
+            </LinearLayout>
+        </com.lihang.ShadowLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

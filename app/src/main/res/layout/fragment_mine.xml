@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.zhiting.clouddisk.mine.fragment.MineFragment.OnClickHandler" />
+
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableRight="@drawable/selector_black_up_down_arrow"
+                android:drawablePadding="@dimen/dp_9"
+                android:onClick="@{handler.onClick}"
+                android:padding="@dimen/dp_10"
+                android:textColor="@color/color_1A2734"
+                android:textSize="@dimen/textSize18"
+                android:textStyle="bold"
+                android:text="我的家" />
+
+            <ImageView
+                android:id="@+id/ivSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:onClick="@{handler.onClick}"
+                android:padding="@dimen/dp_8"
+                android:src="@drawable/icon_mine_setting" />
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivAvatar"
+                        android:layout_width="@dimen/dp_60"
+                        android:layout_height="@dimen/dp_60"
+                        android:src="@drawable/icon_mine_avatar" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_17"
+                        android:padding="@dimen/dp_10"
+                        tools:text="Puloto"
+                        android:textColor="@color/color_1A2734"
+                        android:textSize="@dimen/textSize18"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <com.lihang.ShadowLayout
+                    android:id="@+id/mShadowLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_11"
+                    app:hl_cornerRadius="@dimen/dp_10"
+                    app:hl_shadowColor="@color/color_0d000000"
+                    app:hl_shadowLimit="@dimen/dp_15">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvFunction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_white_c10"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
+                </com.lihang.ShadowLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

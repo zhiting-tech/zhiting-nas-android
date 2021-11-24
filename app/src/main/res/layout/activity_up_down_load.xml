@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.zhiting.clouddisk.home.activity.UpDownLoadActivity.OnClickHandler" />
+
+        <variable
+            name="handler"
+            type="OnClickHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".home.activity.UpDownLoadActivity">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbView"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                style="@style/iv_back"
+                android:onClick="@{handler.onClick}" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/text_title"
+                android:text="@string/home_transfer_lis" />
+
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:background="@drawable/shape_f7f8fa_c10"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5">
+
+            <TextView
+                android:id="@+id/tvUploadList"
+                style="@style/up_down_load_text"
+                android:onClick="@{handler.onClick}"
+                android:text="@string/home_upload_list" />
+
+            <TextView
+                android:id="@+id/tvDownloadList"
+                style="@style/up_down_load_text"
+                android:onClick="@{handler.onClick}"
+                android:text="@string/home_download_list" />
+        </LinearLayout>
+
+        <com.zhiting.networklib.widget.NoScrollViewPager
+            android:id="@+id/nsv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scrollable="false" />
+
+    </LinearLayout>
+</layout>

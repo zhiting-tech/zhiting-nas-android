@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dp_10"
+    android:background="@drawable/shape_white_top_c10"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvPool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/mine_please_choose_storage_pool"
+            android:textColor="@color/color_1a2734_a2a7ae"
+            android:textSize="@dimen/textSize16"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvPartition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_27"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/mine_please_choose_partition"
+            android:textColor="@color/color_1a2734_a2a7ae"
+            android:textSize="@dimen/textSize16"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="wrap_content"
+            android:minWidth="@dimen/dp_30"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_5"
+            android:text="@string/common_cancel"
+            android:textColor="@color/color_1A2734"
+            android:textSize="@dimen/textSize16" />
+    </LinearLayout>
+    <View
+        style="@style/view_eee_line"
+        android:layout_marginTop="@dimen/dp_5"/>
+
+    <RelativeLayout
+        android:id="@+id/rlData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_4">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPool"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPartition"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+
+    <include
+        android:id="@+id/viewEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        layout="@layout/layout_empty"
+        android:visibility="visible"
+        android:layout_gravity="center" />
+</LinearLayout>

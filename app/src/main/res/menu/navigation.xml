@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/selector_home"
+        android:title="@string/main_home"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/navigation_share"
+        android:icon="@drawable/selector_share"
+        android:title="@string/main_share"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/navigation_mine"
+        android:icon="@drawable/selector_mine"
+        android:title="@string/main_mine"
+        app:showAsAction="ifRoom"/>
+</menu>

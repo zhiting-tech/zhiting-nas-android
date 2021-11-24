@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dp_14"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_14"
+    android:paddingBottom="@dimen/dp_19">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStatus"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvName"
+        tools:src="@drawable/icon_zip" />
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/file_text"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_10"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:maxLines="1"
+        app:layout_constraintLeft_toRightOf="@+id/ivLogo"
+        app:layout_constraintRight_toLeftOf="@id/tvDelete"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2014产品部需求" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
+        android:textColor="@color/color_ff0000"
+        android:textSize="@dimen/dp_10"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="@string/home_download_fail" />
+
+    <TextView
+        android:id="@+id/tvSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_34"
+        android:textColor="@color/color_A2A7AE"
+        android:textSize="@dimen/textSize10"
+        app:layout_constraintLeft_toRightOf="@id/tvStatus"
+        app:layout_constraintTop_toTopOf="@id/tvStatus"
+        tools:text="2.5MB" />
+
+    <TextView
+        android:id="@+id/tvDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_1a427aed_c30"
+        android:paddingLeft="@dimen/dp_9"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_9"
+        android:paddingBottom="@dimen/dp_4"
+        android:text="@string/home_ignore"
+        android:textColor="@color/color_427AED"
+        android:textSize="@dimen/textSize12"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStatus"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

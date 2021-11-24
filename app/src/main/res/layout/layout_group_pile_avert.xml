@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <com.zhiting.clouddisk.widget.PileView
+        android:id="@+id/pile_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:PileLayout_pileWidth="@dimen/dp_10"/>
+</LinearLayout>

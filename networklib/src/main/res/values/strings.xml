@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--共享元素transitionName-->
+    <string name="shareElement_img">shareElement_img</string>
+    <string name="shareElement_txt">shareElement_txt</string>
+    <string name="copy_success">复制成功</string>
+
+    <string name="permission_apply">该App需要存储空间、和相机权限</string>
+
+    <string name="to_third_party_name">智汀家庭云盘</string>
+    <string name="no_data">暂无数据</string>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dp_140"
+    android:background="@drawable/selector_add_storage_pool"
+    android:paddingBottom="@dimen/dp_21">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/dp_19"
+        android:layout_marginLeft="@dimen/dp_19"
+        android:src="@drawable/icon_storage_pool" />
+
+    <ImageView
+        android:id="@+id/ivSelected"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toTopOf="@+id/ivLogo"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_17"
+        android:src="@drawable/selector_add_storage_pool_sel" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+        app:layout_constraintLeft_toLeftOf="@+id/ivLogo"
+        app:layout_constraintRight_toRightOf="@+id/ivSelected"
+        android:layout_marginTop="@dimen/dp_28"
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:text="系统存储池"
+        android:textSize="@dimen/textSize16"
+        android:textColor="@color/color_1a2734_white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintLeft_toLeftOf="@id/ivLogo"
+        android:layout_marginTop="@dimen/dp_10"
+        tools:text="100GB"
+        android:textSize="@dimen/textSize11"
+        android:textColor="@color/color_1a2734_white" />
+</androidx.constraintlayout.widget.ConstraintLayout>

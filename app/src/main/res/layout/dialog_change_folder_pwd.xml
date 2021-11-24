@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_top_c10"
+    android:paddingBottom="@dimen/dp_30">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:text="@string/mine_modify_pwd"
+        style="@style/dialog_title"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_9"
+        android:text="@string/home_cancel"
+        android:textSize="@dimen/textSize16"
+        android:textColor="@color/color_1A2734" />
+
+    <TextView
+        android:id="@+id/tvConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_9"
+        android:text="@string/common_confirm"
+        android:textSize="@dimen/textSize16"
+        android:textColor="@color/color_427AED"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvOld"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toTopOf="@+id/llOld"
+        app:layout_constraintBottom_toBottomOf="@+id/llOld"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/llOld"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:text="@string/mine_old_pwd"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize14"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/llOld"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/tvOld"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="3"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_27"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_eeeff2_c10">
+        <EditText
+            android:id="@+id/etOld"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:hint="@string/mine_pwd_tips"
+            android:maxLength="50"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingTop="@dimen/dp_18"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_17"
+            android:textColor="@color/color_1A2734"
+            android:textColorHint="@color/color_A2A7AE"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/ivClearOld"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_15"
+            android:src="@drawable/icon_clear" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNew"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toTopOf="@+id/llNew"
+        app:layout_constraintBottom_toBottomOf="@+id/llNew"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/llNew"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:text="@string/mine_new_pwd"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize14"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/llNew"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/tvNew"
+        app:layout_constraintTop_toBottomOf="@+id/llOld"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="3"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_eeeff2_c10">
+        <EditText
+            android:id="@+id/etNew"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:hint="@string/mine_pwd_tips"
+            android:maxLength="50"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingTop="@dimen/dp_18"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_17"
+            android:textColor="@color/color_1A2734"
+            android:textColorHint="@color/color_A2A7AE"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/ivClearNew"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_15"
+            android:src="@drawable/icon_clear" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvConfirmNew"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toTopOf="@+id/llConfirmNew"
+        app:layout_constraintBottom_toBottomOf="@+id/llConfirmNew"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/llConfirmNew"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:gravity="center_vertical"
+        android:text="@string/mine_confirm_new_pwd"
+        android:textColor="@color/color_1A2734"
+        android:textSize="@dimen/textSize14"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/llConfirmNew"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/tvConfirmNew"
+        app:layout_constraintTop_toBottomOf="@+id/llNew"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="3"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_eeeff2_c10">
+        <EditText
+            android:id="@+id/etConfirmNew"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:hint="@string/mine_pwd_tips"
+            android:maxLength="50"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingTop="@dimen/dp_18"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_17"
+            android:textColor="@color/color_1A2734"
+            android:textColorHint="@color/color_A2A7AE"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/ivClearConfirmNew"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_15"
+            android:src="@drawable/icon_clear" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
