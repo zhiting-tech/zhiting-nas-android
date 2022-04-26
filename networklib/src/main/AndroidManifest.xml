@@ -15,6 +15,5 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-
     </application>
 </manifest>

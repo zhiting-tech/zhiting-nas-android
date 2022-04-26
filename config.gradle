@@ -1,101 +1,113 @@
 ext {
     android = [
-            compileSdkVersion       : 30,
-            buildToolsVersion       : "30.0.3",
-            minSdkVersion           : 19,
-            targetSdkVersion        : 30,
-            versionCode             : 9,
-            versionName             : "1",
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.3",
+            minSdkVersion    : 19,
+            targetSdkVersion : 30,
+            versionCode      : 10,
+            versionName      : "1.4.0",
     ]
-    
-    
+
 
     version = [
-            appcompatVersion                : "1.2.0",
-            materialVersion                 : "1.2.1",
-            constraintlayoutVersion         : "2.0.1",
-            gsonVersion                     : "2.8.5",
-            okhttpVersion                   : "4.9.1",
-            loggingInterceptorVersion       : "4.9.1",
-            immersionbarVersion             : "2.3.3",
-            baseAdapterVersion              : "2.9.35",
-            eventbusVersion                 : "3.0.0",
-            smartRefreshLayoutVersion       : "2.0.3",
-            autosizeVersion                 : "1.1.2",
-            retrofitVersion                 : "2.5.0",
-            converterGsonVersion            : "2.5.0",
-            rxjavaAdapterVersion            : "2.9.0",
-            rxandroidVersion                : "3.0.0",
-            rxjavaVersion                   : "3.0.0",
-            easypermissionsVersion          : "1.3.0",
-            gifImageViewVersion             : "1.2.+",
-            shadowLayoutVersion             : "3.2.0",
-            glideVersion                    : "4.9.0",
-            glideCompilerVersion            : "4.6.1",
-            multidexVersion                 : "2.0.1",
-            pictureselectorVersion          : "v2.7.3-rc08",
+            appcompatVersion         : "1.2.0",
+            materialVersion          : "1.2.1",
+            constraintlayoutVersion  : "2.0.1",
+            gsonVersion              : "2.8.5",
+            okhttpVersion            : "4.9.1",
+            loggingInterceptorVersion: "4.9.1",
+            immersionbarVersion      : "2.3.3",
+            baseAdapterVersion       : "2.9.35",
+            eventbusVersion          : "3.0.0",
+            smartRefreshLayoutVersion: "2.0.3",
+            autosizeVersion          : "1.1.2",
+            retrofitVersion          : "2.5.0",
+            converterGsonVersion     : "2.5.0",
+            rxjavaAdapterVersion     : "2.9.0",
+            rxandroidVersion         : "3.0.0",
+            rxjavaVersion            : "3.0.0",
+            easypermissionsVersion   : "1.3.0",
+            gifImageViewVersion      : "1.2.+",
+            shadowLayoutVersion      : "3.2.0",
+            glideVersion             : "4.11.0",
+            glideCompilerVersion     : "4.11.0",
+            okhttp3Integration       : "4.11.0",
+            multidexVersion          : "2.0.1",
+            pictureselectorVersion   : "v2.7.3-rc08",
             //pictureselectorVersion          : "v2.1.1",
-            greendaoVersion                 : "3.3.0",
-            GsonFactoryVersion              : "5.2",
+            greendaoVersion          : "3.3.0",
+            GsonFactoryVersion       : "5.2",
+            GSYVideoPlayer           : "7.1.4",
+            GSYVideoPlayerAll        : "v8.1.7-release-jitpack",
+            BcprovJdk16Version       : "1.46",
     ]
 
     dependencies = [
-            appcompat               : "androidx.appcompat:appcompat:${version["appcompatVersion"]}",
-            material                : "com.google.android.material:material:${version["materialVersion"]}",
-            constraintlayout        : "androidx.constraintlayout:constraintlayout:${version["constraintlayoutVersion"]}",
-            immersionbar            : "com.gyf.immersionbar:immersionbar:${version["immersionbarVersion"]}",
-            baseAdapter             : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${version["baseAdapterVersion"]}",
+            appcompat                : "androidx.appcompat:appcompat:${version["appcompatVersion"]}",
+            material                 : "com.google.android.material:material:${version["materialVersion"]}",
+            constraintlayout         : "androidx.constraintlayout:constraintlayout:${version["constraintlayoutVersion"]}",
+            immersionbar             : "com.gyf.immersionbar:immersionbar:${version["immersionbarVersion"]}",
+            baseAdapter              : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${version["baseAdapterVersion"]}",
 
             //******************* eventbus 用于广播 *********************/
-            eventbus                : "org.greenrobot:eventbus:${version["eventbusVersion"]}",
+            eventbus                 : "org.greenrobot:eventbus:${version["eventbusVersion"]}",
 
             //******************* 刷新布局 *********************/
-            smartRefreshLayout      : "com.scwang.smart:refresh-layout-kernel:${version["smartRefreshLayoutVersion"]}",
-            smartRefreshHeader      : "com.scwang.smart:refresh-header-classics:${version["smartRefreshLayoutVersion"]}",
+            smartRefreshLayout       : "com.scwang.smart:refresh-layout-kernel:${version["smartRefreshLayoutVersion"]}",
+            smartRefreshHeader       : "com.scwang.smart:refresh-header-classics:${version["smartRefreshLayoutVersion"]}",
 
             //******************* 今日头条适配 *********************/
-            autosize                : "me.jessyan:autosize:${version["autosizeVersion"]}",
+            autosize                 : "me.jessyan:autosize:${version["autosizeVersion"]}",
 
             //******************* gson *********************/
-            gson                    : "com.google.code.gson:gson:${version["gsonVersion"]}",
+            gson                     : "com.google.code.gson:gson:${version["gsonVersion"]}",
 
             //******************* okhttp *********************/
-            okhttp                  : "com.squareup.okhttp3:okhttp:${version["okhttpVersion"]}",
-            loggingInterceptor      : "com.squareup.okhttp3:logging-interceptor:${version["loggingInterceptorVersion"]}",
+            okhttp                   : "com.squareup.okhttp3:okhttp:${version["okhttpVersion"]}",
+            loggingInterceptor       : "com.squareup.okhttp3:logging-interceptor:${version["loggingInterceptorVersion"]}",
 
             //******************* retrofit *********************/
-            retrofit                : "com.squareup.retrofit2:retrofit:${version["retrofitVersion"]}",
-            converterGson           : "com.squareup.retrofit2:converter-gson:${version["converterGsonVersion"]}",
-            rxjavaAdapter           : "com.squareup.retrofit2:adapter-rxjava3:${version["rxjavaAdapterVersion"]}",
+            retrofit                 : "com.squareup.retrofit2:retrofit:${version["retrofitVersion"]}",
+            converterGson            : "com.squareup.retrofit2:converter-gson:${version["converterGsonVersion"]}",
+            rxjavaAdapter            : "com.squareup.retrofit2:adapter-rxjava3:${version["rxjavaAdapterVersion"]}",
 
             //******************* rxjava *********************/
             /*rx-android-java*/
 //            "rxlifecycle"                  : "com.trello.rxlifecycle3:rxlifecycle:${version["rxjavaVersion"]}",
 //            "rxlifecycle-components"       : "com.trello.rxlifecycle3:rxlifecycle-components:${version["rxjavaVersion"]}",
-            rxandroid               : "io.reactivex.rxjava3:rxandroid:${version["rxjavaVersion"]}",
-            "rxjava"                : "io.reactivex.rxjava3:rxjava:${version["rxjavaVersion"]}",
+            rxandroid                : "io.reactivex.rxjava3:rxandroid:${version["rxjavaVersion"]}",
+            "rxjava"                 : "io.reactivex.rxjava3:rxjava:${version["rxjavaVersion"]}",
 
             //******************* 权限申请 *********************/
-            "easypermissions"       : "pub.devrel:easypermissions:${version["easypermissionsVersion"]}",
+            "easypermissions"        : "pub.devrel:easypermissions:${version["easypermissionsVersion"]}",
 
             //******************* gif视图 *********************/
-            "gifImageView"       : "pl.droidsonroids.gif:android-gif-drawable:${version["gifImageViewVersion"]}",
-            "shadowLayout"       : "com.github.lihangleo2:ShadowLayout:${version["shadowLayoutVersion"]}",
+            "gifImageView"           : "pl.droidsonroids.gif:android-gif-drawable:${version["gifImageViewVersion"]}",
+            "shadowLayout"           : "com.github.lihangleo2:ShadowLayout:${version["shadowLayoutVersion"]}",
 
             //图片加载框架
-            "glide"              : "com.github.bumptech.glide:glide:${version["glideVersion"]}",
-            "glideCompiler"      : "com.github.bumptech.glide:compiler:${version["glideCompilerVersion"]}",
-            "multidex"      : "androidx.multidex:multidex:${version["multidexVersion"]}",
+            "glide"                  : "com.github.bumptech.glide:glide:${version["glideVersion"]}",
+            "glideCompiler"          : "com.github.bumptech.glide:compiler:${version["glideCompilerVersion"]}",
+            "glideOkhttp3Integration": "com.github.bumptech.glide:okhttp3-integration:${version["okhttp3Integration"]}",
+            "multidex"               : "androidx.multidex:multidex:${version["multidexVersion"]}",
 
             //******************* 多媒体选择 *********************/
-            "pictureselector"      : "io.github.lucksiege:pictureselector:${version["pictureselectorVersion"]}",
+            "pictureselector"        : "io.github.lucksiege:pictureselector:${version["pictureselectorVersion"]}",
             //"pictureselector"      : "com.github.LuckSiege.PictureSelector:picture_library:${version["pictureselectorVersion"]}",
             //"pictureselector"      : "com.github.LuckSiege:PictureSelectorLight:${version["pictureselectorVersion"]}",
 
-            // greendao ORM 数据库
-            "greendao"      : "org.greenrobot:greendao:${version["greendaoVersion"]}",
+            //greendao ORM 数据库
+            "greendao"               : "org.greenrobot:greendao:${version["greendaoVersion"]}",
 
             //gson解析兼容
-            "GsonFactory" :"com.github.getActivity:GsonFactory:${version["GsonFactoryVersion"]}",
+            "GsonFactory"            : "com.github.getActivity:GsonFactory:${version["GsonFactoryVersion"]}",
+
+            //视频播放器
+            "GsyVideoPlayerJava"     : "com.shuyu:gsyVideoPlayer-java:${version["GSYVideoPlayer"]}",
+            "GSYVideoPlayerExo2"     : "com.shuyu:GSYVideoPlayer-exo2:${version["GSYVideoPlayer"]}",
+            //"GSYVideoPlayerExo3": "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:${version["GSYVideoPlayerAll"]}",
+            "TBSWebView"             : "com.tencent.tbs:tbssdk:44085",
+            "RxLifeCycle"            : "com.trello.rxlifecycle2:rxlifecycle-components:2.0.1",
+            "BcprovJdk16"            : "org.bouncycastle:bcprov-jdk16:${version["BcprovJdk16Version"]}",
     ]
 }

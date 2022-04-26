@@ -22,7 +22,7 @@ public class BasePermissionsActivity extends AppCompatActivity implements EasyPe
 
     /*权限相关*/
     public final int BASE_PERMISSION_REQUEST = 100;
-    public final int WRITE_STORAGE_PERMISSION_REQUEST = 200;
+    public final int STORAGE_PERMISSION_REQUEST = 200;
     protected String[] permissions = {
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.CAMERA,

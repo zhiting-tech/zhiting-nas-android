@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_c10">
+
+    <LinearLayout
+        android:id="@+id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_20"
+        app:layout_constraintBottom_toTopOf="@+id/viewLine"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_40"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_40"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="@string/common_tips"
+            android:textColor="@color/color_3F4663"
+            android:textSize="@dimen/textSize16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_20"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="@string/common_user_traffic_tip"
+            android:textColor="@color/color_3F4663"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="0.5dp"
+        android:background="@color/color_DDDDDD"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTop" />
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine">
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/common_cancel"
+            android:textColor="@color/color_A2A7AE"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_DDDDDD" />
+
+        <TextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/common_resume"
+            android:textColor="@color/color_427AED"
+            android:textSize="@dimen/textSize14"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

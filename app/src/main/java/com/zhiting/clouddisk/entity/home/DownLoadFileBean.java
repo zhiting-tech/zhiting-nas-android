@@ -11,12 +11,30 @@ public class DownLoadFileBean implements Serializable {
     private int pid;//所属文件夹下载id
     private String type;//下载类型file dir
     private String url;//下载地址
+    private String thumbnail_url;//缩略图
     private long size;//文件的大小
     private String name;//文件大小
     private long downloaded;//下载大小
     private int speeds;//速度
     private int status;//下载状态 0未开始 1下载中 2已暂停 3 成功 4下载失败
     private long create_time;//开始下载时间
+    private String download_to_path;//下载存放的地址
+
+    public String getDownload_to_path() {
+        return download_to_path;
+    }
+
+    public void setDownload_to_path(String download_to_path) {
+        this.download_to_path = download_to_path;
+    }
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
 
     public int getId() {
         return id;

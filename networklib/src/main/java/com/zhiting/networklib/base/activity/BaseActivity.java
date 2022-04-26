@@ -50,7 +50,7 @@ public abstract class BaseActivity extends BasePermissionsActivity implements IV
         LibLoader.addActivity(this);
         mImmersionBar = ImmersionBar.with(this).keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        mImmersionBar.init();
+
         createView();
         AndroidBugsSolution.assistActivity(this, null); //adjustResize无效解决
         initUI();

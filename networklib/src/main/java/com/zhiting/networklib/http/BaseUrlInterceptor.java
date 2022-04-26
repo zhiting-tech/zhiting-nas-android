@@ -24,7 +24,7 @@ public class BaseUrlInterceptor implements Interceptor {
         String newBaseUrl = HttpUtils.getHttpUrl(oldRequestUrl);
 
         if (oldRequestUrl.contains("datatunnel")) {
-            newBaseUrl = "http://scgz.zhitingtech.com/api/datatunnel";
+            newBaseUrl = "http://gz.sc.zhitingtech.com/api/datatunnel";
         }
         LogUtil.e("BaseUrlInterceptor="+newBaseUrl);
         HttpUrl newHttpUrl = HttpUrl.parse(newBaseUrl);

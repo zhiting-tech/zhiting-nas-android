@@ -68,6 +68,12 @@
                 style="@style/up_down_load_text"
                 android:onClick="@{handler.onClick}"
                 android:text="@string/home_download_list" />
+
+            <TextView
+                android:id="@+id/tvBackupList"
+                style="@style/up_down_load_text"
+                android:onClick="@{handler.onClick}"
+                android:text="@string/home_backup_list" />
         </LinearLayout>
 
         <com.zhiting.networklib.widget.NoScrollViewPager

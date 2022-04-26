@@ -85,7 +85,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/selector_up_download_bg</item>
         <item name="android:padding">@dimen/dp_14</item>
-        <item name="android:textColor">@color/color_1a2734_a2a7ae</item>
+        <item name="android:textColor">@color/color_white_a2a7ae</item>
         <item name="android:textSize">@dimen/textSize14</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
@@ -122,6 +122,21 @@
         <!--<item name="android:windowFullscreen">true</item>-->
         <!-- 去除标题 -->
         <item name="android:windowNoTitle">true</item>
-
     </style>
+
+    <style name="transcutestyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@android:color/transparent</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimAmount">0.1</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
 </resources>

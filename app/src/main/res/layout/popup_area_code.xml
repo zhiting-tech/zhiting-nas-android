@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lihang.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/slParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:hl_cornerRadius="@dimen/dp_10"
+    app:hl_shadowColor="@color/color_0d000000"
+    app:hl_shadowLimit="@dimen/dp_5">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAreaCode"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_350"
+        android:background="@drawable/shape_white_c10"
+        tools:listitem="@layout/item_area_code" />
+</com.lihang.ShadowLayout>

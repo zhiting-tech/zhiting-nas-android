@@ -12,6 +12,6 @@ import retrofit2.http.QueryMap;
 
 public interface BaseApiService {
 
-    @GET("api/datatunnel")
+    @GET("https://gz.sc.zhitingtech.com/api/datatunnel")
     Observable<BaseResponseEntity<ChannelEntity>> getChannel(@Header("Area-ID") String areaId, @Header("Cookie") String cookie, @QueryMap Map<String, String> map);
 }

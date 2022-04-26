@@ -1,6 +1,9 @@
 package com.zhiting.clouddisk.api;
 
+import com.zhiting.clouddisk.entity.ExtensionTokenListBean;
 import com.zhiting.clouddisk.entity.FileListBean;
+import com.zhiting.clouddisk.entity.LoginBean;
+import com.zhiting.clouddisk.entity.LoginEntity;
 import com.zhiting.clouddisk.entity.MemberBean;
 import com.zhiting.clouddisk.entity.home.UploadCreateFileBean;
 import com.zhiting.clouddisk.entity.mine.DiskListBean;
@@ -14,6 +17,7 @@ import com.zhiting.clouddisk.request.AddPartitionRequest;
 import com.zhiting.clouddisk.request.AddStoragePoolRequest;
 import com.zhiting.clouddisk.request.CheckPwdRequest;
 import com.zhiting.clouddisk.request.CreateStoragePoolRequest;
+import com.zhiting.clouddisk.request.LoginRequest;
 import com.zhiting.clouddisk.request.ModifyNameRequest;
 import com.zhiting.clouddisk.request.ModifyPartitionRequest;
 import com.zhiting.clouddisk.request.MoveCopyRequest;
@@ -333,4 +337,32 @@ public interface ApiService {
      */
     @GET(HttpUrlParams.TEMP_CHANNEL)
     Observable<BaseResponseEntity<ChannelEntity>> getTempChannel(@Header("Area-ID") String areaId, @Header("Cookie") String cookie, @QueryMap Map<String, String> map);
+
+    /**
+     * 登录(废弃）
+     * @param loginRequest
+     * @return
+     */
+    @POST(HttpUrlParams.LOGIN2)
+    Observable<BaseResponseEntity<LoginBean>> login(@Body LoginRequest loginRequest);
+
+    /**
+     * 登录
+     * @param loginRequest
+     * @return
+     */
+    @POST(HttpUrlParams.LOGIN2)
+    Observable<BaseResponseEntity<LoginEntity>> login2(@Body LoginRequest loginRequest);
+
+    /**
+     * 通过sc获取所有家庭扩展应用的token
+     * @param id
+     * @param type
+     * @return
+     */
+    @GET(HttpUrlParams.SC_URL + HttpUrlParams.USERS +"/" + "{id}" +HttpUrlParams.EXTENSION +"/" + "{type}" + HttpUrlParams.TOKENS)
+    Observable<BaseResponseEntity<ExtensionTokenListBean>> getExtensionTokenList(@Path("id") int id, @Path("type") int type);
+
+    @POST(HttpUrlParams.LOGOUT)
+    Observable<BaseResponseEntity<Object>> logout();
 }

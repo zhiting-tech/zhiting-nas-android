@@ -1,7 +1,10 @@
 package com.zhiting.clouddisk.constant;
 
+import static android.os.Environment.getExternalStorageDirectory;
+
 import com.zhiting.clouddisk.entity.AuthBackBean;
 import com.zhiting.clouddisk.entity.HomeCompanyBean;
+import com.zhiting.networklib.utils.AndroidUtil;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ public class Constant {
     public static int USER_ID = 2;
     public static String userName = "";
     public static HomeCompanyBean currentHome;//当前家庭对象
+    public static boolean isX5Success;//腾讯X5初始化是否成功
 
 
     public static final String PATH = "path";
@@ -29,9 +33,11 @@ public class Constant {
     public static final String ALL_PATH = "all_path";
     public static final String BEAN = "bean";
     public static final String FROM = "from";
+    public static final String KEY_ID = "key_id";
 
     public static final String MOVE = "move";
     public static final String COPY = "copy";
+    public static final String KEY_BEAN = "key_bean";
 
     public static final String SYSTEM_POOL = "_default_";
 
@@ -54,8 +60,59 @@ public class Constant {
     public static final String PARTITION_DELETING = "TaskDelPartition_1"; // 删除存储池分区中
     public static final String PARTITION_DELETE_FAIL = "TaskDelPartition_0"; // 删除存储池分区失败
 
-    public static final String AGREEMENT_URL = "https://scgz.zhitingtech.com/zt-nas/protocol/user";
-    public static final String POLICY_URL = "https://scgz.zhitingtech.com/zt-nas/protocol/privacy";
+    public static final String AGREEMENT_URL = "https://gz.sc.zhitingtech.com/zt-nas/protocol/user";
+    public static final String POLICY_URL = "https://gz.sc.zhitingtech.com/zt-nas/protocol/privacy";
 
     public static final String AGREED = "agreed"; // 同意用户协议和隐私政策
+
+    public static final String SMART_ASSISTANT = "smart_assistant";
+    public static final String HTTP = "http";
+    public static final String HTTP_HEAD = HTTP + "://";
+
+    public static final String FIND_DEVICE_URL = "255.255.255.255"; // hello 数据包地址
+    public static final int FIND_DEVICE_PORT = 54321; // hello数据包端口
+    // 发送hello包数据，固定
+    public static final byte[] SEND_HELLO_DATA = {(byte) 0x21, (byte) 0x31, (byte) 0x00, (byte) 0x20, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF,
+            (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
+
+    public static final String ROOT_PATH = getExternalStorageDirectory().getPath().toString();
+    public static final String BACKUP_CAMERA = ROOT_PATH+"/DCIM/Camera";
+    public static final String BACKUP_VIDEO = ROOT_PATH+"/DCIM/Camera";
+    public static final String BACKUP_FILE = ROOT_PATH+"/documents";
+    public static final String BACKUP_AUDIO = ROOT_PATH+"/DCIM/Camera";
+
+    public static final int BACK_ALBUM_TYPE = 1;
+    public static final int BACK_VIDEO_TYPE = 2;
+    public static final int BACK_FILE_TYPE = 3;
+    public static final int BACK_AUDIO_TYPE = 4;
+
+    public static String getRecordPath(){
+        String brand = AndroidUtil.getDeviceBrand();
+        String recordPath = ROOT_PATH;
+        switch (brand.toLowerCase()){
+            case "huawei":
+
+            case "samsung":
+                recordPath = ROOT_PATH + "/Sounds";
+                break;
+
+            case "xiaomi":
+                recordPath = ROOT_PATH + "/MIUI/sound_recorder";
+                break;
+
+            case "meizu":
+                recordPath = ROOT_PATH + "/Recorder";
+                break;
+
+            case "oppo":
+                recordPath = ROOT_PATH + "/Recordings";
+                break;
+
+            case "vivo":
+                recordPath = ROOT_PATH + "/Record";
+                break;
+        }
+        return recordPath;
+    }
 }

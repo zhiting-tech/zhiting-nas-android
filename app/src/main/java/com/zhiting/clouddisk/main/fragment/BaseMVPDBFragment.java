@@ -1,6 +1,7 @@
 package com.zhiting.clouddisk.main.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +12,39 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zhiting.clouddisk.R;
+import com.zhiting.clouddisk.constant.Config;
 import com.zhiting.clouddisk.dialog.ConfirmDialog;
+import com.zhiting.clouddisk.entity.AuthBackBean;
 import com.zhiting.clouddisk.entity.HomeCompanyBean;
+import com.zhiting.clouddisk.event.HomeRemoveEvent;
+import com.zhiting.clouddisk.main.activity.Login2Activity;
 import com.zhiting.clouddisk.main.activity.LoginActivity;
+import com.zhiting.clouddisk.main.activity.MainActivity;
 import com.zhiting.clouddisk.popup_window.FamilyPopupWindow;
 import com.zhiting.clouddisk.constant.Constant;
+import com.zhiting.clouddisk.util.HttpUrlParams;
+import com.zhiting.networklib.constant.BaseConstant;
+import com.zhiting.networklib.constant.SpConstant;
+import com.zhiting.networklib.http.HttpConfig;
+import com.zhiting.networklib.utils.CollectionUtil;
 import com.zhiting.networklib.utils.ErrorConstant;
 import com.zhiting.networklib.base.activity.BaseActivity;
 import com.zhiting.networklib.base.fragment.BaseFragment;
 import com.zhiting.networklib.base.mvp.IPresenter;
 import com.zhiting.networklib.base.mvp.IView;
+import com.zhiting.networklib.utils.LibLoader;
 import com.zhiting.networklib.utils.SpUtil;
 import com.zhiting.networklib.utils.UiUtil;
+import com.zhiting.networklib.utils.gsonutils.GsonConverter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,8 +80,8 @@ public abstract class BaseMVPDBFragment <DB extends ViewDataBinding, V extends I
 
         familyPopupWindow.setSelectFamilyListener(new FamilyPopupWindow.OnSelectFamilyListener() {
             @Override
-            public void selectedFamily(HomeCompanyBean homeCompanyBean) {
-                selectedHome(homeCompanyBean);
+            public void selectedFamily(AuthBackBean authBackBean) {
+                selectedHome(authBackBean);
                 familyPopupWindow.dismiss();
             }
         });
@@ -103,9 +120,31 @@ public abstract class BaseMVPDBFragment <DB extends ViewDataBinding, V extends I
         mInvalidTokenDialog.setConfirmListener(new ConfirmDialog.OnConfirmListener() {
             @Override
             public void onConfirm() {
-                switchToActivity(LoginActivity.class);
+
                 SpUtil.put("loginInfo", "");
-                mActivity.finish();
+                List<AuthBackBean> authBackList = GsonConverter.getGson().fromJson(SpUtil.getString(Config.KEY_AUTH_INFO), new TypeToken<List<AuthBackBean>>() {
+                }.getType());
+                if (CollectionUtil.isNotEmpty(authBackList)) {
+                    for (int i=0; i<authBackList.size(); i++){
+                        AuthBackBean authBackBean = authBackList.get(i);
+                        HomeCompanyBean homeCompanyBean = authBackBean.getHomeCompanyBean();
+                        if (Constant.AREA_ID == homeCompanyBean.getId()) {
+                            authBackList.remove(i);
+                            break;
+                        }
+                    }
+                }
+                if (CollectionUtil.isNotEmpty(authBackList)) {  // 如果还有家庭
+                    String authInfo = new Gson().toJson(authBackList);
+                    SpUtil.put(Config.KEY_AUTH_INFO, authInfo);
+                    EventBus.getDefault().post(new HomeRemoveEvent());
+                    LibLoader.finishAllActivityExcludeCertain(MainActivity.class);
+                } else {  // 没有家庭就到登录界面
+                    SpUtil.put(Config.KEY_AUTH_INFO, "");
+                    switchToActivity(Login2Activity.class);
+                    LibLoader.finishAllActivity();
+                }
+                mInvalidTokenDialog.dismiss();
             }
         });
     }
@@ -126,10 +165,23 @@ public abstract class BaseMVPDBFragment <DB extends ViewDataBinding, V extends I
 
     /**
      * 选中家庭之后的操作
-     * @param homeCompanyBean
+     * @param authBackBean
      */
-    protected void selectedHome(HomeCompanyBean homeCompanyBean){
-
+    protected void selectedHome(AuthBackBean authBackBean){
+        Constant.authBackBean = authBackBean;
+        Constant.cookies = Constant.authBackBean.getCookies();
+        Constant.scope_token = Constant.authBackBean.getStBean().getToken();//scopeToken
+        Constant.USER_ID = Constant.authBackBean.getUserId();//用户 id
+        Constant.userName = Constant.authBackBean.getUserName();//用户名称
+        Constant.currentHome = Constant.authBackBean.getHomeCompanyBean();//家庭
+        Constant.AREA_ID = Constant.currentHome.getId();
+        BaseConstant.AREA_ID = Constant.AREA_ID;
+        BaseConstant.SCOPE_TOKEN = Constant.scope_token;
+        Constant.HOME_NAME = Constant.currentHome.getName();
+        SpUtil.put(SpConstant.HOME_ID, String.valueOf(Constant.AREA_ID));
+        SpUtil.put(SpConstant.SA_TOKEN, Constant.currentHome.getSa_user_token());
+        String saLanAddress = Constant.currentHome.getSa_lan_address();
+        HttpConfig.baseTestUrl = TextUtils.isEmpty(saLanAddress) ? HttpUrlParams.SC_URL : saLanAddress;
     }
 
     /**
@@ -151,15 +203,19 @@ public abstract class BaseMVPDBFragment <DB extends ViewDataBinding, V extends I
      * 更新授权信息
      */
     protected void refreshAuth(){
-        List<HomeCompanyBean> homeCompanyBeans = new ArrayList<>();
-        if (Constant.authBackBean!=null) {
-            HomeCompanyBean homeCompanyBean = Constant.authBackBean.getHomeCompanyBean();
-            if (homeCompanyBean != null) {
-                homeCompanyBean.setSelected(true);
-                homeCompanyBeans.add(homeCompanyBean);
-                familyPopupWindow.setFamilyData(homeCompanyBeans);
-            }
-        }
+//        List<HomeCompanyBean> homeCompanyBeans = new ArrayList<>();
+//        if (Constant.authBackBean!=null) {
+//            HomeCompanyBean homeCompanyBean = Constant.authBackBean.getHomeCompanyBean();
+//            if (homeCompanyBean != null) {
+//                homeCompanyBean.setSelected(true);
+//                homeCompanyBeans.add(homeCompanyBean);
+//                familyPopupWindow.setFamilyData(homeCompanyBeans);
+//            }
+//        }
+//        List<AuthBackBean> authBackList = GsonConverter.getGson().fromJson(SpUtil.getString(Config.KEY_AUTH_INFO), new TypeToken<List<AuthBackBean>>() {
+//        }.getType());
+//        authBackList.get(0).setSelected(true);
+//        familyPopupWindow.setFamilyData(authBackList);
     }
 
 

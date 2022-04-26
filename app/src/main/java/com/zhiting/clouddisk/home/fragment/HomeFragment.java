@@ -14,14 +14,16 @@ import com.zhiting.clouddisk.databinding.FragmentHomeBinding;
 import com.zhiting.clouddisk.db.FolderPassword;
 import com.zhiting.clouddisk.dialog.InputPwdDialog;
 import com.zhiting.clouddisk.dialog.OperateFileDialog;
+import com.zhiting.clouddisk.entity.AuthBackBean;
 import com.zhiting.clouddisk.entity.FileListBean;
 import com.zhiting.clouddisk.entity.home.FileBean;
 import com.zhiting.clouddisk.entity.home.FileOperateBean;
 import com.zhiting.clouddisk.entity.mine.PagerBean;
+import com.zhiting.clouddisk.event.ChangeHomeEvent;
 import com.zhiting.clouddisk.event.OperateFileEvent;
 import com.zhiting.clouddisk.event.RefreshAuthEvent;
+import com.zhiting.clouddisk.event.RefreshDataEvent;
 import com.zhiting.clouddisk.event.UploadDownloadEvent;
-import com.zhiting.clouddisk.home.activity.DownDetailActivity;
 import com.zhiting.clouddisk.home.activity.FileDetailActivity;
 import com.zhiting.clouddisk.home.activity.UpDownLoadActivity;
 import com.zhiting.clouddisk.home.contract.HomeContract;
@@ -94,6 +96,13 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
                 binding.tvHome.setText(Constant.authBackBean.getHomeCompanyBean().getName());
             }
         }
+    }
+
+    @Override
+    protected void selectedHome(AuthBackBean authBackBean) {
+        super.selectedHome(authBackBean);
+        binding.tvHome.setText(authBackBean.getHomeCompanyBean().getName());
+        getData(true, true);
     }
 
     @Override
@@ -185,8 +194,32 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
         uploadDownCount();
     }
 
+    /**
+     * 找到sa地址后刷新数据
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(RefreshDataEvent event){
+        if (homeFileAdapter != null && CollectionUtil.isEmpty(homeFileAdapter.getData())){
+            getData(true, false);
+        }
+    }
+
+    /**
+     * 家庭改变之后刷新数据
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ChangeHomeEvent event) {
+        binding.tvFile.setVisibility(View.GONE);
+        binding.rrv.setVisibility(View.GONE);
+        if (isVisible()) {
+            getData(true, true);
+        }
+    }
+
     private void uploadDownCount() {
-        int fileCount = GonetUtil.getUnderwayFileCount();
+        int fileCount = GonetUtil.getUnderwayFileCount() + GonetUtil.getBackupFileCount();
         LogUtil.e("onMessageEvent1==" + fileCount);
         if (fileCount == 0) {
             binding.tvFileCount.setVisibility(View.GONE);
@@ -233,6 +266,9 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
             if (mRefresh) {
                 homeFileAdapter.setNewData(files);
                 binding.tvFile.setVisibility(CollectionUtil.isNotEmpty(files) ? View.VISIBLE : View.GONE);
+                if (binding.rrv.getVisibility() != View.VISIBLE) {
+                    binding.rrv.setVisibility(View.VISIBLE);
+                }
                 binding.rrv.showEmptyView(CollectionUtil.isEmpty(files));
             } else {
                 homeFileAdapter.addData(files);
@@ -258,6 +294,12 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
         binding.rrv.finishRefresh(false);
     }
 
+    @Override
+    public void showError(int errorCode, String msg) {
+        super.showError(errorCode, msg);
+        binding.rrv.finishRefresh(false);
+    }
+
     /**
      * 解密文件成功
      */
@@ -278,7 +320,7 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
     /**
      * 更新文件夹密码
      */
-    private void updateFolderPwd(){
+    private void updateFolderPwd() {
         mFolderPwd.setPassword(filePwd);
         mFolderPwd.setModifyTime(TimeUtil.getCurrentTimeMillis());
         mPresenter.updateFolderPwd(mFolderPwd);
@@ -319,7 +361,6 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
             } else {
                 checkFilePwd();
             }
-
         } else {
             showInputPwdDialog();
         }
@@ -407,9 +448,9 @@ public class HomeFragment extends BaseMVPDBFragment<FragmentHomeBinding, HomeCon
      */
     private void checkFilePwd() {
         if (mFileBean != null) {
-            if (TextUtils.isEmpty(filePwd)){ // 如果密码为空，则输入
+            if (TextUtils.isEmpty(filePwd)) { // 如果密码为空，则输入
                 inputPwdDialog.show(this);
-            }else { // 密码不为空，校验密码
+            } else { // 密码不为空，校验密码
                 CheckPwdRequest checkPwdRequest = new CheckPwdRequest(filePwd);
                 mPresenter.decryptFile(Constant.scope_token, mFileBean.getPath(), checkPwdRequest);
             }

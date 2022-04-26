@@ -31,6 +31,15 @@ public class FileBean implements Serializable {
     private int deleted; // 是否可删：1/0
 
     private boolean enabled = true;  // 是否可操作，自己定义的字段
+    private String thumbnail_url;//缩略、图播放图封面
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
 
     public FileBean() {
     }

@@ -21,7 +21,8 @@
         <com.zhiting.networklib.widget.StatusBarView
             android:id="@+id/sbView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,7 +30,8 @@
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_marginRight="@dimen/dp_5"
             android:layout_marginBottom="@dimen/dp_5"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvHome"

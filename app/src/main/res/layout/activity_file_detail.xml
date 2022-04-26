@@ -68,11 +68,11 @@
                     android:background="@drawable/shape_ff0000_c30"
                     android:paddingLeft="@dimen/dp_6"
                     android:paddingRight="@dimen/dp_6"
-                    tools:text="26"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textSize8"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    tools:text="26"
+                    tools:visibility="visible" />
             </FrameLayout>
 
             <ImageView
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:onClick="@{handler.onClick}"
-                android:paddingLeft="@dimen/dp_11"
+                android:paddingLeft="@dimen/dp_9"
                 android:paddingRight="@dimen/dp_9"
                 android:src="@drawable/icon_add" />
 

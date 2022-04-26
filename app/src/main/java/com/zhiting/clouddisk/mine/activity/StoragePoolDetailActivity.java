@@ -109,7 +109,6 @@ public class StoragePoolDetailActivity extends BaseMVPDBActivity<ActivityStorage
                     if (!isSystemPool) {  // 不是存储池才能编辑存储池分区
                         String capacity = FileUtil.getReadableFileSize(diskBean.getCapacity());
                         String defaultUnit = capacity.substring(capacity.length() - 2);
-                        System.out.println("单位：" + defaultUnit);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("diskBean", diskBean);
                         bundle.putString("poolName", binding.tvName.getText().toString());

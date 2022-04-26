@@ -57,7 +57,7 @@ public class AgreementDialog extends Dialog implements View.OnClickListener {
         tvDisagree = findViewById(R.id.tvDisagree);
         tvAgree = findViewById(R.id.tvAgree);
         tvContent.setMovementMethod(LinkMovementMethod.getInstance());
-        tvContent.setText(StringUtil.setAgreementAndPolicyStyle(UiUtil.getString(R.string.warm_tips_content), UiUtil.getColor(R.color.color_2da3f6), mAgreementPolicyListener));
+        tvContent.setText(StringUtil.setAgreementAndPolicyStyle(UiUtil.getString(R.string.warm_tips_content), UiUtil.getColor(R.color.color_2da3f6), false, false, mAgreementPolicyListener));
         tvDisagree.setOnClickListener(this::onClick);
         tvAgree.setOnClickListener(this::onClick);
     }

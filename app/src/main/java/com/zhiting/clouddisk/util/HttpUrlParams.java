@@ -2,6 +2,9 @@ package com.zhiting.clouddisk.util;
 
 public interface HttpUrlParams {
 
+//    String SC_URL = "https://gz.sc.zhitingtech.com";//测试环境
+    String SC_URL = "https://gz.sc.zhitingtech.com";//正式环境
+    String API = "/api";
     String START = "start"; // 第几页
     String SIZE = "size"; // 每页大小
     String SCOPE_TOKEN = "scope-token";
@@ -11,7 +14,8 @@ public interface HttpUrlParams {
     String PAGE = "page";
     String PAGE_SIZE = "page_size";
 
-    String PARAMS_HEAD = "api/plugin/wangpan/";
+//    String PARAMS_HEAD = "api/plugin/wangpan/";
+    String PARAMS_HEAD = "wangpan/api/";
 
     String RESOURCES = PARAMS_HEAD + "resources/";  // 目录下的文件/子目录列表
     String RESOURCE = PARAMS_HEAD + "resources";
@@ -36,5 +40,10 @@ public interface HttpUrlParams {
     String EDIT_FOLDER = PARAMS_HEAD + "folders/"; // 编辑文件夹
     String FOLDER_SETTING = PARAMS_HEAD + "settings"; // 获取设置
     String TASKS = PARAMS_HEAD + "tasks/"; // 异步任务管理
-    String TEMP_CHANNEL = "api/datatunnel"; //临时通道
+    String TEMP_CHANNEL = SC_URL + "/api/datatunnel"; //临时通道
+    String LOGIN = "http://gz.sc.zhitingtech.com/api/plugin/wangpan/users/login"; //登录(废弃）
+    String LOGIN2 = SC_URL + "/api/sessions/login"; //登录
+    String LOGOUT = SC_URL + "/api/sessions/logout"; //登录
+    String EXTENSION = "/extension";
+    String TOKENS = "/tokens";
 }

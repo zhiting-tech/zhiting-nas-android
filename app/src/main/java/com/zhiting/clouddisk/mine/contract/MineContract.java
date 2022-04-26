@@ -13,14 +13,18 @@ public interface MineContract {
 
     abstract class Model extends BaseModel {
         public abstract Observable<BaseResponseEntity<MemberDetailBean>> getUserDetail(String scopeToken, int id);
+        public abstract Observable<BaseResponseEntity<Object>> logout();
     }
 
     interface Presenter extends IPresenter<View> {
         void getUserDetail(String scopeToken, int id);;
+        void logout();
     }
 
     interface View extends IView {
         void getUserDetailSuccess(MemberDetailBean memberDetailBean);
         void getUserDetailFail(int errorCode, String msg);
+        void logoutSuccess();
+        void logoutFail(int errorCode, String msg);
     }
 }

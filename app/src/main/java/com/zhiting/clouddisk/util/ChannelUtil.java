@@ -17,7 +17,8 @@ public class ChannelUtil {
         ApiServiceFactory.releaseApiService();
         RetrofitManager.releaseRetrofitManager();
         HttpConfig.baseUrl = baseUrl;
-        HttpConfig.baseTestUrl = HttpUtils.getHttpUrl(baseUrl) ;
+        HttpConfig.baseTestUrl = baseUrl;
+//        HttpConfig.baseTestUrl = HttpUtils.getHttpUrl(baseUrl) ;
         GonetUtil.changeHost();
     }
 }

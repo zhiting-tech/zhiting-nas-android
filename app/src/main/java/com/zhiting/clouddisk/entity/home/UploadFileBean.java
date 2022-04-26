@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 上传文件实体类
  */
 public class UploadFileBean implements Serializable {
-    private Integer id;
+    private int id;
     private String url;//上传地址
     private long size;//文件大小
     private String name;//文件名字
@@ -17,8 +17,26 @@ public class UploadFileBean implements Serializable {
     private long create_time;//创建时间
     private String tmp_name;
     private String ThreadInfo;//记录每个线程对应块的上传状态 1已上传 0未上传
+    private String thumbnail_url;//缩略图
+    private String preview_url;//预览
 
-    public Integer getId() {
+    public String getPreview_url() {
+        return preview_url;
+    }
+
+    public void setPreview_url(String preview_url) {
+        this.preview_url = preview_url;
+    }
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
+
+    public int getId() {
         return id;
     }
 

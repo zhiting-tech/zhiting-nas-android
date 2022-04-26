@@ -4,6 +4,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hjq.gson.factory.GsonFactory;
+import com.zhiting.networklib.http.cookie.CookieJarImpl;
+import com.zhiting.networklib.http.cookie.PersistentCookieStore;
 import com.zhiting.networklib.utils.HttpUtils;
 
 import org.json.JSONArray;
@@ -25,6 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitManager {
 
+    public static final String HTTPS = "https";
+    public static final String HTTPS_HEAD = HTTPS + "://";
+
     public final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static RetrofitManager INSTANCE;
     private Retrofit retrofit;
@@ -34,7 +39,7 @@ public class RetrofitManager {
     }
 
     private RetrofitManager(String baserUrl) {
-        baserUrl = HttpUtils.getHttpUrl(baserUrl);
+//        baserUrl = HttpUtils.getHttpUrl(baserUrl);
         Log.e("RetrofitManager","=baseUrl="+baserUrl);
         OkHttpClient client = getOkHttpClient();
         retrofit = new Retrofit.Builder()
@@ -70,14 +75,15 @@ public class RetrofitManager {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(getHttpLoginInterceptor())
-                .addInterceptor(new BaseUrlInterceptor())
+//                .addInterceptor(new BaseUrlInterceptor())
                 .connectTimeout(HttpConfig.connectTimeout, TimeUnit.SECONDS)
                 .readTimeout(HttpConfig.readTimeOut, TimeUnit.SECONDS)
                 .writeTimeout(HttpConfig.writeTimeOut, TimeUnit.SECONDS)
-                //.hostnameVerifier(SSLSocketClient.getHostnameVerifier())//配置
-                //.sslSocketFactory(SSLSocketClient.getSSLSocketFactory(), SSLSocketClient.getX509TrustManager())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())//配置
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory(), SSLSocketClient.getX509TrustManager())
                 .retryOnConnectionFailure(true)
-                .connectionSpecs(Arrays.asList(spec, spec1));
+                .connectionSpecs(Arrays.asList(spec, spec1))
+                .cookieJar(new CookieJarImpl(PersistentCookieStore.getInstance()));
         return builder.build();
     }
 

@@ -63,5 +63,11 @@ dependencies {
     api rootProject.ext.dependencies["pictureselector"]
     api rootProject.ext.dependencies["greendao"]
     api rootProject.ext.dependencies["GsonFactory"]
+    api rootProject.ext.dependencies["GsyVideoPlayerJava"]
+    api rootProject.ext.dependencies["GSYVideoPlayerExo2"]
+    //api rootProject.ext.dependencies["GSYVideoPlayerExo3"]
+    api rootProject.ext.dependencies["TBSWebView"]
+    api rootProject.ext.dependencies["RxLifeCycle"]
+    api rootProject.ext.dependencies["glideOkhttp3Integration"]
 
 }

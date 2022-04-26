@@ -51,4 +51,24 @@ public class MinePresenter extends BasePresenter<MineModel, MineContract.View> i
             }
         });
     }
+
+    /**
+     * 退出登录
+     */
+    @Override
+    public void logout() {
+        executeObservable(mModel.logout(), new RequestDataCallback<Object>() {
+            @Override
+            public void onSuccess(Object response) {
+                super.onSuccess(response);
+                mView.logoutSuccess();
+            }
+
+            @Override
+            public void onFailed(int errorCode, String errorMessage) {
+                super.onFailed(errorCode, errorMessage);
+                mView.logoutFail(errorCode, errorMessage);
+            }
+        });
+    }
 }

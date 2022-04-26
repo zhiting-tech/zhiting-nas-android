@@ -22,6 +22,8 @@ public class HomeCompanyBean {
     private String ss_id;//wifi id
     private String mac_address;//wifi地址
     private String sc_lan_address;//sc地址
+    private long area_id; // sa家庭id
+    private String sa_id; // sa设备id
 
     public boolean isSAEnvironment() {
         return SAEnvironment;
@@ -171,5 +173,21 @@ public class HomeCompanyBean {
 
     public void setCloud_user_id(int cloud_user_id) {
         this.cloud_user_id = cloud_user_id;
+    }
+
+    public long getArea_id() {
+        return area_id;
+    }
+
+    public void setArea_id(long area_id) {
+        this.area_id = area_id;
+    }
+
+    public String getSa_id() {
+        return sa_id;
+    }
+
+    public void setSa_id(String sa_id) {
+        this.sa_id = sa_id;
     }
 }

@@ -11,10 +11,14 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -23,38 +27,67 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.tools.SPUtils;
 import com.zhiting.clouddisk.R;
 import com.zhiting.clouddisk.adapter.FileOperateAdapter;
+import com.zhiting.clouddisk.constant.Config;
 import com.zhiting.clouddisk.constant.Constant;
 import com.zhiting.clouddisk.databinding.ActivityMainBinding;
 import com.zhiting.clouddisk.dialog.CenterAlertDialog;
 import com.zhiting.clouddisk.dialog.RenameFileDialog;
+import com.zhiting.clouddisk.entity.AuthBackBean;
+import com.zhiting.clouddisk.entity.GetDeviceInfoBean;
 import com.zhiting.clouddisk.entity.HomeCompanyBean;
+import com.zhiting.clouddisk.entity.ScanDeviceByUDPBean;
+import com.zhiting.clouddisk.entity.UpdateHomeNameEvent;
 import com.zhiting.clouddisk.entity.home.FileBean;
 import com.zhiting.clouddisk.entity.home.FileOperateBean;
+import com.zhiting.clouddisk.entity.mine.SettingBean;
 import com.zhiting.clouddisk.event.CancelFileOperateEvent;
+import com.zhiting.clouddisk.event.ChangeHomeEvent;
+import com.zhiting.clouddisk.event.HomeRemoveEvent;
 import com.zhiting.clouddisk.event.OperateFileEvent;
+import com.zhiting.clouddisk.event.RefreshDataEvent;
+import com.zhiting.clouddisk.event.UploadDownloadEvent;
 import com.zhiting.clouddisk.home.activity.MoveCopyFileActivity;
 import com.zhiting.clouddisk.home.activity.ShareFolderActivity;
+import com.zhiting.clouddisk.home.activity.UpDownLoadActivity;
 import com.zhiting.clouddisk.home.fragment.HomeFragment;
 import com.zhiting.clouddisk.main.contract.MainContract;
 import com.zhiting.clouddisk.main.presenter.MainPresenter;
+import com.zhiting.clouddisk.mine.activity.TrafficTipActivity;
 import com.zhiting.clouddisk.mine.fragment.MineFragment;
+import com.zhiting.clouddisk.popup_window.FamilyPopupWindow;
+import com.zhiting.clouddisk.popup_window.SettingPopupWindow;
 import com.zhiting.clouddisk.request.NameRequest;
 import com.zhiting.clouddisk.request.ShareRequest;
 import com.zhiting.clouddisk.share.fragment.ShareFragment;
+import com.zhiting.clouddisk.util.AESUtil;
 import com.zhiting.clouddisk.util.ChannelUtil;
 import com.zhiting.clouddisk.util.FastUtil;
 import com.zhiting.clouddisk.util.FileTypeUtil;
 import com.zhiting.clouddisk.util.FileUtil;
 import com.zhiting.clouddisk.util.GonetUtil;
+import com.zhiting.clouddisk.util.HttpUrlParams;
+import com.zhiting.clouddisk.util.Md5Util;
+import com.zhiting.clouddisk.util.udp.ByteUtil;
+import com.zhiting.clouddisk.util.udp.UDPSocket;
+import com.zhiting.networklib.base.activity.BaseActivity;
+import com.zhiting.networklib.constant.BaseConstant;
 import com.zhiting.networklib.constant.SpConstant;
 import com.zhiting.networklib.entity.ChannelEntity;
+import com.zhiting.networklib.event.FourZeroFourEvent;
 import com.zhiting.networklib.http.HttpConfig;
+import com.zhiting.networklib.http.RetrofitManager;
+import com.zhiting.networklib.http.cookie.PersistentCookieStore;
+import com.zhiting.networklib.utils.AndroidUtil;
 import com.zhiting.networklib.utils.CollectionUtil;
-import com.zhiting.networklib.utils.HttpUtils;
 import com.zhiting.networklib.utils.LogUtil;
+import com.zhiting.networklib.utils.NetworkUtil;
 import com.zhiting.networklib.utils.SpUtil;
+import com.zhiting.networklib.utils.StringUtil;
 import com.zhiting.networklib.utils.TimeFormatUtil;
 import com.zhiting.networklib.utils.UiUtil;
 import com.zhiting.networklib.utils.fileutil.BaseFileUtil;
@@ -69,14 +102,19 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.Cookie;
 
 /**
- * dev1.4.0
+ * a
+ * dev 1.4.0
  */
 public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainContract.View, MainPresenter> implements MainContract.View, BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -98,6 +136,17 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
 
     private RenameFileDialog renameFileDialog;
     private WifiReceiver mWifiReceiver;
+    private boolean isFirst = true;
+
+    private UDPSocket udpSocket; // 发现sa udpsocket
+    private Set<String> updAddressSet; // 存储已获取upd设备
+    private ConcurrentHashMap<String, ScanDeviceByUDPBean> scanMap = new ConcurrentHashMap<>();  // 存储udp扫描的设备信息
+    private CountDownTimer mCountDownTimer; // 发现sa设备扫描倒计时
+
+    private long sendId = 0; // 发送upd id
+
+    protected FamilyPopupWindow familyPopupWindow;
+    private SettingPopupWindow settingPopupWindow;
 
     /******************************** 重写方法 ******************************/
     @Override
@@ -113,19 +162,146 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
     @Override
     protected void initUI() {
         super.initUI();
+        binding.setHandler(new OnClickHandler());
+        binding.tvHome.setText(Constant.currentHome.getName());
         binding.navigation.setItemIconTintList(null);
         binding.navigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+        updAddressSet = new HashSet<>();
+        initPopupWindow();
+        initSettingView();
         initFragment();
         initRvOperateFile();
         basePermissionTask();
-        initGonet();
+        initCountDownTimer();
+
+        if (Constant.currentHome != null && TextUtils.isEmpty(Constant.currentHome.getSa_lan_address())) {
+            getSAUrl();
+        }
     }
 
     private void initGonet() {
         UiUtil.postDelayed(() -> {
             GonetUtil.initUploadManager();
             GonetUtil.initDownloadManager();
+            uploadDownCount();
+            WifiManager wifiManager = ((WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE));
+            if (wifiManager != null && checkSA(wifiManager.getConnectionInfo())) {
+                setBackup();
+            }
         }, 200);
+
+    }
+
+    /**
+     * 家庭选择弹窗
+     */
+    private void initPopupWindow() {
+        familyPopupWindow = new FamilyPopupWindow(this);
+
+        familyPopupWindow.setSelectFamilyListener(new FamilyPopupWindow.OnSelectFamilyListener() {
+            @Override
+            public void selectedFamily(AuthBackBean authBackBean) {
+                binding.tvHome.setText(authBackBean.getHomeCompanyBean().getName());
+                Constant.authBackBean = authBackBean;
+                Constant.cookies = Constant.authBackBean.getCookies();
+                Constant.scope_token = Constant.authBackBean.getStBean().getToken();//scopeToken
+                Constant.USER_ID = Constant.authBackBean.getUserId();//用户 id
+                Constant.userName = Constant.authBackBean.getUserName();//用户名称
+                Constant.currentHome = Constant.authBackBean.getHomeCompanyBean();//家庭
+                Constant.AREA_ID = Constant.currentHome.getId();
+                BaseConstant.AREA_ID = Constant.AREA_ID;
+                BaseConstant.SCOPE_TOKEN = Constant.scope_token;
+                Constant.HOME_NAME = Constant.currentHome.getName();
+                SpUtil.put(SpConstant.HOME_ID, String.valueOf(Constant.AREA_ID));
+                SpUtil.put(SpConstant.SA_TOKEN, Constant.currentHome.getSa_user_token());
+                String saLanAddress = Constant.currentHome.getSa_lan_address();
+                HttpConfig.baseSAHost = saLanAddress;
+                HttpConfig.baseTestUrl = TextUtils.isEmpty(saLanAddress) ? HttpUrlParams.SC_URL : saLanAddress;
+                refreshHCData();
+                familyPopupWindow.dismiss();
+            }
+        });
+
+        familyPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                binding.tvHome.setSelected(false);
+            }
+        });
+    }
+
+    /**
+     * 刷新数据
+     */
+    private void refreshHCData(){
+        uploadDownCount();
+        connectWifiHandle();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().post(new ChangeHomeEvent());
+            }
+        }, 200);
+    }
+
+    /**
+     * 设置弹窗的数据
+     */
+    private void initSettingView() {
+        settingPopupWindow = new SettingPopupWindow(this);
+        List<SettingBean> settingBeans = new ArrayList<>();
+        settingBeans.add(new SettingBean(0, UiUtil.getString(R.string.mine_logout), R.drawable.icon_mine_logout));
+        settingPopupWindow.setSelectedSettingListener(settingBean -> {
+            logoutClearData();
+        });
+        settingPopupWindow.setSettingData(settingBeans);
+
+    }
+
+    /**
+     * 退出登录后清除数据
+     */
+    private void logoutClearData() {
+        SpUtil.put("loginInfo", "");
+        SpUtil.put(Config.KEY_AUTH_INFO, "");
+        SpUtil.put(SpConstant.COOKIE, "");
+        PersistentCookieStore.getInstance().removeAll();
+        switchToActivity(Login2Activity.class);
+        finish();
+    }
+
+    /**
+     * 设置备份
+     */
+    private void setBackup() {
+        if (GonetUtil.mUploadManager != null) {
+            if (SpUtil.getBoolean(SpConstant.ALBUM_AUTO + Constant.AREA_ID + Constant.USER_ID)) {
+                GonetUtil.addUploadFile(Constant.BACKUP_CAMERA, Constant.BACK_ALBUM_TYPE);
+            }
+            if (SpUtil.getBoolean(SpConstant.VIDEO_AUTO + Constant.AREA_ID + Constant.USER_ID)) {
+                GonetUtil.addUploadFile(Constant.BACKUP_VIDEO, Constant.BACK_VIDEO_TYPE);
+            }
+            if (SpUtil.getBoolean(SpConstant.FILE_AUTO + Constant.AREA_ID + Constant.USER_ID)) {
+                GonetUtil.addUploadFile(Constant.BACKUP_FILE, Constant.BACK_FILE_TYPE);
+            }
+            if (SpUtil.getBoolean(SpConstant.AUDIO_AUTO + Constant.AREA_ID + Constant.USER_ID)) {
+                GonetUtil.addUploadFile(Constant.BACKUP_AUDIO, Constant.BACK_AUDIO_TYPE);
+            }
+        }
+    }
+
+    /**
+     * 上传下载数量
+     */
+    private void uploadDownCount() {
+        int fileCount = GonetUtil.getUnderwayFileCount() + GonetUtil.getBackupFileCount();
+        LogUtil.e("onMessageEvent1==" + fileCount);
+        if (fileCount == 0) {
+            binding.tvFileCount.setVisibility(View.GONE);
+        } else {
+            binding.tvFileCount.setVisibility(View.VISIBLE);
+            binding.tvFileCount.setText(String.valueOf(fileCount));
+        }
     }
 
     @Override
@@ -133,6 +309,260 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         super.initData();
         mWifiReceiver = new WifiReceiver();
         registerWifiReceiver();
+    }
+
+    /**
+     * 获取SA地址
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(FourZeroFourEvent event) {
+        getSAUrl();
+    }
+
+    /**
+     * 移除家庭
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(HomeRemoveEvent event) {
+        if (familyPopupWindow!=null) {
+            familyPopupWindow.removeHome();
+        }
+    }
+
+    /**
+     * 更新家庭名称显示
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UpdateHomeNameEvent event) {
+        if (Constant.currentHome!=null){
+            binding.tvHome.setText(Constant.currentHome.getName());
+            refreshHCData();
+        }
+    }
+
+    /**
+     * 上传下载数量更新通知
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UploadDownloadEvent event) {
+        uploadDownCount();
+    }
+
+    /**
+     * 获取SA地址
+     */
+    private void getSAUrl() {
+        if (AndroidUtil.getNetworkType().equals(AndroidUtil.NET_WIFI)) {
+            startUDPScan();
+            mCountDownTimer.start();
+        }
+    }
+
+    /**
+     * upd发现设备
+     */
+    private void startUDPScan() {
+        if (udpSocket == null) {
+            udpSocket = new UDPSocket(Constant.FIND_DEVICE_URL, Constant.FIND_DEVICE_PORT,
+                    new UDPSocket.OnReceiveCallback() {
+                        @Override
+                        public void onReceiveByteData(String address, int port, byte[] data, int length) {
+                            scanDeviceSuccessByUDP(address, port, data, length);
+                        }
+
+                        @Override
+                        public void onReceive(String msg) {
+
+                        }
+                    });
+        }
+        udpSocket.startUDPSocket();
+        udpSocket.sendMessage(Constant.SEND_HELLO_DATA, Constant.FIND_DEVICE_URL);
+    }
+
+    /**
+     * 计时
+     */
+    private void initCountDownTimer() {
+        mCountDownTimer = new CountDownTimer(10_000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                LogUtil.e("initCountDownTimer=" + (millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                LogUtil.e("initCountDownTimer=onFinish=");
+                clearCollection();
+            }
+        };
+    }
+
+    /**
+     * 处理udp发现的设备
+     *
+     * @param address
+     * @param port
+     * @param data
+     * @param length
+     */
+    private void scanDeviceSuccessByUDP(String address, int port, byte[] data, int length) {
+        byte[] deviceIdData = Arrays.copyOfRange(data, 6, 12);  // 设备id
+        try {
+            String deviceId = ByteUtil.bytesToHex(deviceIdData);
+            if (scanMap.containsKey(deviceId)) {  // 已经获取到hello数据包信息
+                ScanDeviceByUDPBean sdb = scanMap.get(deviceId);
+                String token = sdb.getToken();
+                byte[] dealData = Arrays.copyOfRange(data, 32, length);
+                if (TextUtils.isEmpty(token)) { // 没有获取过token信息
+                    String key = sdb.getPassword();
+                    String decryptKeyMD5 = Md5Util.getMD5(key);
+                    byte[] decryptKeyDta = ByteUtil.md5Str2Byte(decryptKeyMD5);
+                    byte[] ivData = ByteUtil.byteMergerAll(decryptKeyDta, key.getBytes());
+                    byte[] ivEncryptedData = Md5Util.getMD5(ivData);
+                    String tokenFromServer = AESUtil.decryptAES(dealData, decryptKeyDta, ivEncryptedData, AESUtil.PKCS7, true);
+                    if (!TextUtils.isEmpty(tokenFromServer)) {
+                        sdb.setToken(tokenFromServer);
+                        sdb.setId(sendId);
+                        String deviceStr = "{\"method\":\"get_prop.info\",\"params\":[],\"id\":" + sendId + "}";  // 获取设备信息体
+                        sendId++;
+                        byte[] bodyData = AESUtil.encryptAES(deviceStr.getBytes(), tokenFromServer, AESUtil.PKCS7); // 获取设备信息体转字节加密
+                        int len = bodyData.length + 32;  // 包长
+                        byte[] lenData = ByteUtil.intToByte2(len);  // 包长用占两位字节
+                        byte[] headData = {(byte) 0x21, (byte) 0x31}; // 包头固定
+                        byte[] preData = {(byte) 0xFF, (byte) 0xFF}; // 预留固定
+                        byte[] serData = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00}; // 序列号固定
+                        byte[] tokenData = sdb.getPassword().getBytes();  // 之前获取设备信息时生成的16位随机密码
+                        byte[] getDeviceInfoData = ByteUtil.byteMergerAll(headData, lenData, preData, deviceIdData, serData, tokenData, bodyData); //  拼接获取设备信息包
+                        udpSocket.sendMessage(getDeviceInfoData, address);
+                    }
+                } else { // 获取过token信息
+                    GetDeviceInfoBean deviceInfoBean = sdb.getDeviceInfoBean();
+                    byte[] decryptDeviceData = Md5Util.getMD5(ByteUtil.md5Str2Byte(token));
+                    byte[] ivDeviceData = ByteUtil.byteMergerAll(decryptDeviceData, ByteUtil.md5Str2Byte(token));
+                    byte[] ivEncryptedDeviceData = Md5Util.getMD5(ivDeviceData);
+                    String infoJson = AESUtil.decryptAES(dealData, decryptDeviceData, ivEncryptedDeviceData, AESUtil.PKCS7, false);
+
+                    GetDeviceInfoBean getDeviceInfoBean = new Gson().fromJson(infoJson, GetDeviceInfoBean.class);
+
+                    if (deviceInfoBean == null && getDeviceInfoBean != null && sdb.getId() == getDeviceInfoBean.getId()) {
+                        GetDeviceInfoBean.ResultBean gdifb = getDeviceInfoBean.getResult();
+                        sdb.setDeviceInfoBean(getDeviceInfoBean);
+                        if (gdifb != null) {
+                            String model = gdifb.getModel();
+                            if (!TextUtils.isEmpty(model) && model.equals(Constant.SMART_ASSISTANT)) { // 如果时sa设备
+                                String saId = gdifb.getSa_id();
+                                if (!TextUtils.isEmpty(saId) && saId.equals(Constant.currentHome.getSa_id())) {
+                                    String url = Constant.HTTP_HEAD + sdb.getHost() + ":" + gdifb.getPort();
+                                    findSuccess(url);
+                                    clearCollection();
+                                }
+
+                            }
+                        }
+                    }
+                }
+            } else {  // 获取到hello数据包信息
+                ScanDeviceByUDPBean scanDeviceByUDPBean = new ScanDeviceByUDPBean(address, port, deviceId);
+                String password = StringUtil.getUUid().substring(0, 16);
+                scanDeviceByUDPBean.setPassword(password);
+                scanMap.put(deviceId, scanDeviceByUDPBean);
+                getDeviceToken(address, data, password);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取设备token
+     *
+     * @param address
+     * @param data
+     */
+    private void getDeviceToken(String address, byte[] data, String password) {
+        if (!updAddressSet.contains(address)) {
+            updAddressSet.add(address);
+            byte[] tokenHeadData = {(byte) 0x21, (byte) 0x31, (byte) 0x00, (byte) 0x20, (byte) 0xFF, (byte) 0xFE}; // 包头，包长，预留字节固定
+            byte[] deviceIdData = Arrays.copyOfRange(data, 6, 12);  // 设备id
+            byte[] passwordData = password.getBytes();  // 密码
+            byte[] serData = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00}; // 序列号 固定
+            byte[] tokenData = ByteUtil.byteMergerAll(tokenHeadData, deviceIdData, serData, passwordData);  // 拼接获取token数据包
+            udpSocket.sendMessage(tokenData, address);
+        }
+    }
+
+    /**
+     * 发现sa成功之后的操作
+     *
+     * @param url
+     */
+    private void findSuccess(String url) {
+        Constant.currentHome.setSa_lan_address(url);  // 当前家庭设置sa地址
+        HttpConfig.baseTestUrl = url;
+        HttpConfig.baseSAHost = url;
+        String bssid = "";  // wifi 的 bssid
+        WifiManager wifiManager = ((WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE));
+        if (wifiManager != null) { // wifi管理器不为空
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo != null) {  // wifi信息不为空
+                bssid = wifiInfo.getBSSID();
+            }
+        }
+        if (TextUtils.isEmpty(Constant.currentHome.getMac_address())) {  // 把wifi的bssid设置到当前家庭mac_address
+            Constant.currentHome.setMac_address(bssid);
+        }
+        // 更新缓存信息
+        String authInfo = SpUtil.getString(Config.KEY_LOGIN_INFO);
+        AuthBackBean authBackBean = GsonConverter.getGson().fromJson(authInfo, AuthBackBean.class);//授权信息
+        if (authBackBean != null) {
+            HomeCompanyBean homeCompanyBean = authBackBean.getHomeCompanyBean();
+            if (homeCompanyBean != null) {
+                homeCompanyBean.setSa_lan_address(url);
+                if (TextUtils.isEmpty(homeCompanyBean.getMac_address())) {
+                    homeCompanyBean.setMac_address(bssid);
+                }
+                String backInfo = new Gson().toJson(authBackBean);
+                SpUtil.put(Config.KEY_LOGIN_INFO, backInfo);
+            }
+        }
+
+        List<AuthBackBean> authBackList = GsonConverter.getGson().fromJson(SpUtil.getString(Config.KEY_AUTH_INFO), new TypeToken<List<AuthBackBean>>() {
+        }.getType());
+        for (AuthBackBean abb : authBackList) {
+            HomeCompanyBean homeCompanyBean = abb.getHomeCompanyBean();
+            if (homeCompanyBean.getSa_id().equals(Constant.currentHome.getSa_id())) {
+                homeCompanyBean.setSa_lan_address(url);
+                if (TextUtils.isEmpty(homeCompanyBean.getMac_address())) {
+                    homeCompanyBean.setMac_address(bssid);
+                }
+                break;
+            }
+        }
+        String authBackInfo = new Gson().toJson(authBackList);
+        SpUtil.put(Config.KEY_AUTH_INFO, authBackInfo);
+        // 取消倒计时
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+        // 通知刷新数据
+        EventBus.getDefault().post(new RefreshDataEvent());
+    }
+
+    /**
+     * 清除发现设备信息缓存
+     */
+    private void clearCollection() {
+        if (udpSocket != null && udpSocket.isRunning()) {
+            udpSocket.stopUDPSocket();
+        }
+        scanMap.clear();
+        updAddressSet.clear();
     }
 
     /**
@@ -147,36 +577,50 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         registerReceiver(mWifiReceiver, filter);
     }
 
+    private boolean needShowTraffic;
+
     private class WifiReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
                 NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                 if (info.getState().equals(NetworkInfo.State.DISCONNECTED)) {//断开wifi
+                    if (GonetUtil.mDownloadManager != null && GonetUtil.getBackupFileCount() > 0 && SPUtils.getInstance().getBoolean(Config.KEY_ONLY_WIFI, true)) {
+                        needShowTraffic = true;
+                        GonetUtil.stopAllUploadTask(1);
+                    }
                     switchNetwork(false);
                     GonetUtil.netWorkNotice();
                 } else if (info.getState().equals(NetworkInfo.State.CONNECTED)) {
                     if (info.getType() == ConnectivityManager.TYPE_WIFI) {//连接wifi
-                        connectWifiHandle(context);
+                        connectWifiHandle();
                     }
                 }
+            } else if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+                showTrafficDialog();
             }
         }
+    }
+
+    private void showTrafficDialog() {
+        int type = NetworkUtil.getNetworkerStatus();
+        boolean isOnlyWifi = SPUtils.getInstance().getBoolean(Config.KEY_ONLY_WIFI, true);
+        int fileCount = GonetUtil.getUnderwayFileCount();
+        EventBus.getDefault().post(new UploadDownloadEvent());
+        if (type >= 2 && isOnlyWifi && !isFirst && (fileCount > 0 || needShowTraffic)) {
+            switchToActivity(TrafficTipActivity.class);
+        }
+        isFirst = false;
     }
 
     /**
      * 连接wifi成功后的操作
      *
-     * @param context
      */
-    private void connectWifiHandle(Context context) {
+    private void connectWifiHandle() {
         UiUtil.postDelayed(() -> {
             WifiManager wifiManager = ((WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE));
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            //LogUtil.e(TAG, "网络=连接到网络11 " + wifiInfo.getSSID());
-            //LogUtil.e(TAG, "网络=连接到网络22 " + GsonConverter.getGson().toJson(wifiInfo));
-            //LogUtil.e(TAG, "网络=连接到网络33 " + wifiInfo.getBSSID() + "-" + Constant.currentHome.getMac_address());
-            //LogUtil.e(TAG, "网络=连接到网络44 " + wifiInfo.getMacAddress());
             boolean isSASAEnvironment = checkSA(wifiInfo);
             switchNetwork(isSASAEnvironment);
         }, 100);
@@ -191,10 +635,13 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         if (Constant.currentHome == null) return;
         SpUtil.put(SpConstant.IS_SA, isSA);
         Constant.currentHome.setSAEnvironment(isSA);
+        LogUtil.e("执行到这里");
         if (isSA) {
+            LogUtil.e("执行到这里" + "true");
             String url = Constant.currentHome.getSa_lan_address();
             ChannelUtil.resetApiServiceFactory(url);
         } else {
+            LogUtil.e("执行到这里" + "false");
             checkTempChannelWithinTime();
         }
     }
@@ -204,6 +651,7 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
      */
     private void checkTempChannelWithinTime() {
         HomeCompanyBean home = Constant.currentHome;
+        if (home.isSAEnvironment()) return;
         String channelEntityJson = SpUtil.getString(home.getSa_user_token());
         if (!TextUtils.isEmpty(channelEntityJson)) {
             ChannelEntity channel = GsonConverter.getGson().fromJson(channelEntityJson, ChannelEntity.class);
@@ -228,11 +676,13 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
      */
     private String getUrl(String oldUrl, String host) {
         String url = "";
+        if (TextUtils.isEmpty(oldUrl)) {
+            oldUrl = HttpUrlParams.SC_URL;
+        }
         if (!TextUtils.isEmpty(host)) {
             url = oldUrl.replace(HttpConfig.baseSCHost, host);
         }
-        LogUtil.e("getUrl=" + url);
-        return HttpUtils.getHttpUrl(url);
+        return url;
     }
 
     /**
@@ -240,7 +690,7 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
      */
     private void requestTempChannelUrl(HomeCompanyBean home) {
         Map<String, String> map = new HashMap<>();
-        map.put("scheme", "http");
+        map.put("scheme", RetrofitManager.HTTPS);
         String cookieStr = "";
         if (CollectionUtil.isNotEmpty(Constant.cookies)) {
             for (Cookie cookie : Constant.cookies) {
@@ -279,6 +729,7 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
      * 拷assets中数据库到手机sd
      */
     private void copyAssetFileToSD() {
+        GonetUtil.mDownloadPath = SPUtils.getInstance().getString(Config.KEY_DOWNLOAD_PATH, GonetUtil.mDownloadPath);
         String fileName = GonetUtil.dbName;
         String fileRoot = GonetUtil.dbPath;
         String filePath = fileRoot + File.separator + fileName;
@@ -286,7 +737,11 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         LogUtil.e("fileRoot=path1=" + filePath);
         if ((file.exists() && file.length() == 0) || !file.exists()) {
             LogUtil.e("fileRoot=path2=" + filePath);
-            BaseFileUtil.copyAssetData(fileName, fileRoot);
+            BaseFileUtil.copyAssetData(fileName, fileRoot, () -> {
+                initGonet();
+            });
+        } else {
+            initGonet();
         }
     }
 
@@ -410,26 +865,6 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
 
             }
         });
-//        renameFileDialog.setCompleteListener((kind, fileName) -> {
-//                 // 重新命名
-//                String[] fn = fileName.split("\\."); // 修改之后的名称
-//                String[] ofn = fileBean.getName().split("\\."); // 修改之前的名称
-//                int fnLength = fn.length; // 修改之后的名称长度
-//                int ofnLength = ofn.length; // 修改之前的名称场地
-//                if (fnLength != ofnLength) {
-//                    showFileTypeChangeDialog(fileName, fileBean);
-//                } else {
-//                    if (fnLength > 1 && ofnLength > 1) {  // 文件类型改变
-//                        if (!fn[fnLength - 1].equalsIgnoreCase(ofn[ofnLength - 1])) {
-//                            showFileTypeChangeDialog(fileName, fileBean);
-//                        } else {
-//                            mPresenter.renameFile(Constant.scope_token, fileBean.getPath(), new NameRequest(fileName));
-//                        }
-//                    } else {
-//                        mPresenter.renameFile(Constant.scope_token, fileBean.getPath(), new NameRequest(fileName));
-//                    }
-//                }
-//        });
         renameFileDialog.show(this);
     }
 
@@ -535,9 +970,11 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         hideFragments(fragmentTransaction);
         mIndex = index;
+        uploadDownCount();
         switch (index) {
             // 我的文件
             case FRAGMENT_HOME:
+                checkTempChannelWithinTime();
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                     fragmentTransaction.add(R.id.fl_content, homeFragment, HOME_TAG);
@@ -548,6 +985,7 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
 
             // 共享文件
             case FRAGMENT_SHARE:
+                checkTempChannelWithinTime();
                 if (shareFragment == null) {
                     shareFragment = new ShareFragment();
                     fragmentTransaction.add(R.id.fl_content, shareFragment, SHARE_TAG);
@@ -566,6 +1004,8 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
                 }
                 break;
         }
+        binding.flUpDownload.setVisibility(mIndex < 2 ? View.VISIBLE : View.GONE);
+        binding.ivSetting.setVisibility(mIndex == 2 ? View.VISIBLE : View.GONE);
         fragmentTransaction.commit();
     }
 
@@ -644,6 +1084,7 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         String newUrl = getUrl(Constant.currentHome.getSc_lan_address(), bean.getHost());
         ChannelUtil.resetApiServiceFactory(newUrl);
         LogUtil.e(TAG, "baseUrl3=" + newUrl);
+        setBackup();
         saveTempChannelUrl(bean);
     }
 
@@ -657,6 +1098,7 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         } else {
             isFirstError = true;
             String url = Constant.currentHome.getSa_lan_address();
+            if (!TextUtils.isEmpty(url))
             ChannelUtil.resetApiServiceFactory(url);
             LogUtil.e(TAG, "baseUrl4=" + url);
         }
@@ -685,7 +1127,6 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
             if (FastUtil.isDoubleClick()) {
                 super.onBackPressed();
             } else {
-                //GonetUtil.exitApp();
                 ToastUtil.show(UiUtil.getString(R.string.common_exit_tip));
             }
         }
@@ -696,6 +1137,29 @@ public class MainActivity extends BaseMVPDBActivity<ActivityMainBinding, MainCon
         super.onDestroy();
         if (mWifiReceiver != null) {
             unregisterReceiver(mWifiReceiver);
+        }
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+        if (udpSocket != null) {
+            udpSocket.stopUDPSocket();
+        }
+    }
+
+    /**
+     * 点击事件
+     */
+    public class OnClickHandler {
+        public void onClick(View view) {
+            int viewId = view.getId();
+            if (viewId == R.id.tvHome) { // 我的家
+                binding.tvHome.setSelected(true);
+                familyPopupWindow.showAsDown(binding.tvHome);
+            } else if (viewId == R.id.flUpDownload) { // 上传下载列表
+                switchToActivity(UpDownLoadActivity.class);
+            } else if (viewId == R.id.ivSetting) { // 设置
+                settingPopupWindow.showAsDown(binding.ivSetting);
+            }
         }
     }
 }

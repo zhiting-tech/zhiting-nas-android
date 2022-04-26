@@ -2,6 +2,7 @@ package com.zhiting.networklib.utils.imageutil;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.zhiting.networklib.http.HttpConfig;
 import com.zhiting.networklib.utils.LibLoader;
 import com.zhiting.networklib.utils.UiUtil;
 
@@ -21,6 +23,8 @@ import java.io.File;
 public class GlideUtil {
 
     public static GlideConfing load(String path) {
+        if (!TextUtils.isEmpty(path) && !path.startsWith("http"))
+            path = HttpConfig.baseTestUrl + path;
         return new GlideConfing<>(Glide.with(UiUtil.getContext()).asDrawable().load(path));
     }
 
@@ -52,8 +56,7 @@ public class GlideUtil {
         return new GlideConfing<>(Glide.with(UiUtil.getContext()).asGif().load(rid));
     }
 
-
-    public static void controlGif(ImageView imageView, @DrawableRes int resource, boolean isPlayGif){
+    public static void controlGif(ImageView imageView, @DrawableRes int resource, boolean isPlayGif) {
         Glide.with(LibLoader.getCurrentActivity())
                 .load(resource)
                 .into(new SimpleTarget<Drawable>() {

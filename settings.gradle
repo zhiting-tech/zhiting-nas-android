@@ -1,3 +1,4 @@
 rootProject.name = "clouddisk-android"
 include ':app'
 include ':networklib'
+include ':filechooser'

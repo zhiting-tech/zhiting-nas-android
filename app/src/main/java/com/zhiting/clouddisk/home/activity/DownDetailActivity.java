@@ -11,6 +11,11 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.luck.picture.lib.entity.LocalMedia;
+import com.shuyu.gsyvideoplayer.cache.CacheFactory;
+import com.shuyu.gsyvideoplayer.cache.ProxyCacheManager;
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
+import com.shuyu.gsyvideoplayer.player.PlayerFactory;
 import com.zhiting.clouddisk.R;
 import com.zhiting.clouddisk.adapter.DownDetailAdapter;
 import com.zhiting.clouddisk.adapter.DownDetailNavigateAdapter;
@@ -20,14 +25,19 @@ import com.zhiting.clouddisk.dialog.DownDetailDialog;
 import com.zhiting.clouddisk.home.contract.DownDetailContract;
 import com.zhiting.clouddisk.home.presenter.DownDetailPresenter;
 import com.zhiting.clouddisk.main.activity.BaseMVPDBActivity;
+import com.zhiting.clouddisk.tbswebview.DownloadUtil;
 import com.zhiting.clouddisk.util.FileTypeUtil;
 import com.zhiting.clouddisk.util.FileUtil;
 import com.zhiting.networklib.utils.CollectionUtil;
 import com.zhiting.networklib.utils.UiUtil;
+import com.zhiting.networklib.utils.pictureselectorutil.PicSelectorUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
 /**
  * 下载详情
@@ -57,7 +67,6 @@ public class DownDetailActivity extends BaseMVPDBActivity<ActivityDownDetailBind
     protected void initUI() {
         super.initUI();
         binding.setHandler(new OnClickHandler());
-
     }
 
     @Override
@@ -160,14 +169,73 @@ public class DownDetailActivity extends BaseMVPDBActivity<ActivityDownDetailBind
     private void showOperateDialog(File file) {
         DownDetailDialog downDetailDialog = DownDetailDialog.getInstance(file);
         downDetailDialog.setOperateListener((position, file1) -> {
-            Uri imageUri = FileProvider.getUriForFile(
-                    DownDetailActivity.this,
-                    "com.zhiting.clouddisk.provider", //(use your app signature + ".provider" )
-                    file1);
-            openFile(imageUri, FileTypeUtil.getFileUriType(FileTypeUtil.fileType(file1.getName())));
             downDetailDialog.dismiss();
+            if (position == 0) {
+                previewMedia(file);
+            } else {
+                Uri imageUri = FileProvider.getUriForFile(
+                        DownDetailActivity.this,
+                        "com.zhiting.clouddisk.provider", //(use your app signature + ".provider" )
+                        file1);
+                openFile(imageUri, FileTypeUtil.getFileUriType(FileTypeUtil.fileType(file1.getName())));
+            }
         });
         downDetailDialog.show(this);
+    }
+
+    private void previewMedia(File file) {
+        if (file == null) return;
+        int fileType = FileTypeUtil.fileType(file.getName());
+
+        if (fileType == 7) {//视频
+            String videoUrl = file.getPath();
+            if (videoUrl.endsWith("3gp") || videoUrl.endsWith("mpg")) {
+                PlayerFactory.setPlayManager(Exo2PlayerManager.class);
+                CacheFactory.setCacheManager(ExoPlayerCacheManager.class);
+            } else {
+                PlayerFactory.setPlayManager(IjkPlayerManager.class);
+                CacheFactory.setCacheManager(ProxyCacheManager.class);
+            }
+            VideoActivity.startActivity(this, videoUrl, file.getAbsolutePath(), file.getName());
+        } else if (fileType == 5) {//图片
+            preViewImage(file.getName());
+        } else if (fileType == 6) {//音频
+            PlayerFactory.setPlayManager(Exo2PlayerManager.class);
+            CacheFactory.setCacheManager(ExoPlayerCacheManager.class);
+            String audioUrl = file.getPath();
+            AudioActivity.startActivity(this, audioUrl, file.getName(), file.length());
+        } else if (fileType == 1 || fileType == 2 || fileType == 3 || fileType == 4 || fileType == 8 || fileType == 9) {
+            DownloadUtil.get().startDownload(this, file.getPath(), file.getName());
+        }
+    }
+
+    /**
+     * 预览图片
+     */
+    private void preViewImage(String selectName) {
+        List<LocalMedia> images = new ArrayList<>();
+        if (CollectionUtil.isNotEmpty(mFileList)) {
+            for (File file : mFileList) {
+                int type = FileTypeUtil.fileType(file.getName());
+                if (type == 5) {
+                    String imageUrl = file.getPath();
+                    LocalMedia media = new LocalMedia();
+                    media.setPath(imageUrl);
+                    media.setOriginalPath(imageUrl);
+                    media.setRealPath(imageUrl);
+                    media.setFileName(file.getName());
+                    images.add(media);
+                }
+            }
+            int position = 0;
+            for (int i = 0; i < images.size(); i++) {
+                if (selectName.equalsIgnoreCase(images.get(i).getFileName())) {
+                    position = i;
+                    break;
+                }
+            }
+            PicSelectorUtils.openPreviewCustomImages(this, position, images, PictureCustomPreviewActivity.class);
+        }
     }
 
     /**

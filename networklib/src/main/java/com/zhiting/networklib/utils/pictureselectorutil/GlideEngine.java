@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.provider.SyncStateContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,10 +29,9 @@ import com.luck.picture.lib.widget.longimage.ImageSource;
 import com.luck.picture.lib.widget.longimage.ImageViewState;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 import com.zhiting.networklib.R;
+import com.zhiting.networklib.constant.BaseConstant;
 
 /**
- * @author：luck
- * @date：2019-11-13 17:02
  * @describe：Glide加载引擎
  */
 public class GlideEngine implements ImageEngine {
@@ -64,19 +64,21 @@ public class GlideEngine implements ImageEngine {
     public void loadImage(@NonNull Context context, @NonNull String url,
                           @NonNull ImageView imageView,
                           SubsamplingScaleImageView longImageView, OnImageCompleteCallback callback) {
-        String token = "带添加";
-        Headers headers = new LazyHeaders.Builder().addHeader("token", token).build();
+        String token = BaseConstant.SCOPE_TOKEN;
+        String areaId = String.valueOf(BaseConstant.AREA_ID);
+        Headers headers = (new LazyHeaders.Builder()).addHeader("scope-token", token).addHeader("area_id", areaId).build();
         GlideUrl cookie = new GlideUrl(url, headers);
-        if(!TextUtils.isEmpty(token)){//IM的图片需要添加token才能下载
-            loadImageCustoms(context,imageView,longImageView,callback,cookie);
-        }else{
-            loadImageCustoms(context,imageView,longImageView,callback,url);
+
+        if (!TextUtils.isEmpty(token)) {//IM的图片需要添加token才能下载
+            loadImageCustoms(context, imageView, longImageView, callback, cookie);
+        } else {
+            loadImageCustoms(context, imageView, longImageView, callback, url);
         }
     }
 
     private void loadImageCustoms(@NonNull Context context,
                                   @NonNull ImageView imageView,
-                                  SubsamplingScaleImageView longImageView, OnImageCompleteCallback callback,Object object) {
+                                  SubsamplingScaleImageView longImageView, OnImageCompleteCallback callback, Object object) {
         Glide.with(context)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -208,9 +210,14 @@ public class GlideEngine implements ImageEngine {
     @Override
     public void loadAsGifImage(@NonNull Context context, @NonNull String url,
                                @NonNull ImageView imageView) {
+        String token = BaseConstant.SCOPE_TOKEN;
+        String areaId = String.valueOf(BaseConstant.AREA_ID);
+        Headers headers = (new LazyHeaders.Builder()).addHeader("scope-token", token).addHeader("area_id", areaId).build();
+        GlideUrl cookie = new GlideUrl(url, headers);
+
         Glide.with(context)
                 .asGif()
-                .load(url)
+                .load(cookie)
                 .into(imageView);
     }
 

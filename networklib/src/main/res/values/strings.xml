@@ -9,4 +9,8 @@
 
     <string name="to_third_party_name">智汀家庭云盘</string>
     <string name="no_data">暂无数据</string>
+    <string name="common_tips">提示</string>
+    <string name="common_user_traffic_tip">当前正在使用移动流量，使用会消耗较多 流量，是否继续上传/下载</string>
+    <string name="common_pause">暂停</string>
+    <string name="common_resume">继续</string>
 </resources>

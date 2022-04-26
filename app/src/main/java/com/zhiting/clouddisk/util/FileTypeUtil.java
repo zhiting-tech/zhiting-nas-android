@@ -114,7 +114,7 @@ public class FileTypeUtil {
                 || fileName.endsWith(".pnm") || fileName.endsWith(".pfm") || fileName.endsWith(".pam") || fileName.endsWith(".sct")
                 || fileName.endsWith(".tga") || fileName.endsWith(".vda") || fileName.endsWith(".icb") || fileName.endsWith(".vst")
                 || fileName.endsWith(".tif") || fileName.endsWith(".tiff") || fileName.endsWith(".mpo") || fileName.endsWith(".webp ")
-                || fileName.endsWith(".ico");
+                || fileName.endsWith(".ico") || fileName.endsWith(".heic");
     }
 
     /**
@@ -129,7 +129,7 @@ public class FileTypeUtil {
                 || fileName.endsWith(".fiv") || fileName.endsWith(".flac") || fileName.endsWith(".m4a") || fileName.endsWith(".m4b")
                 || fileName.endsWith(".oga") || fileName.endsWith(".ogg") || fileName.endsWith(".sf2") || fileName.endsWith(".sfark")
                 || fileName.endsWith(".voc") || fileName.endsWith(".wav") || fileName.endsWith(".weba") || fileName.endsWith(".mp3")
-                || fileName.endsWith(".mid") || fileName.endsWith(".wma") || fileName.endsWith(".ra");
+                || fileName.endsWith(".mid") || fileName.endsWith(".wma") || fileName.endsWith(".ra")|| fileName.endsWith(".ape");
     }
 
     /**
@@ -142,7 +142,8 @@ public class FileTypeUtil {
         return fileName.endsWith(".mp4") || fileName.endsWith(".m4v") || fileName.endsWith(".avi") || fileName.endsWith(".mkv")
                 || fileName.endsWith(".mov") || fileName.endsWith(".mpg") || fileName.endsWith(".mpeg") || fileName.endsWith(".vob")
                 || fileName.endsWith(".ram") || fileName.endsWith(".rm") || fileName.endsWith(".rmvb") || fileName.endsWith(".asf")
-                || fileName.endsWith(".wmv") || fileName.endsWith(".webm") || fileName.endsWith(".m2ts") || fileName.endsWith(".movie");
+                || fileName.endsWith(".wmv") || fileName.endsWith(".webm") || fileName.endsWith(".m2ts") || fileName.endsWith(".movie")
+                || fileName.endsWith(".flv") || fileName.endsWith(".3gp");
     }
 
     /**

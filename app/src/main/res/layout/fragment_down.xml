@@ -28,13 +28,31 @@
                     android:animateLayoutChanges="true"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvUploadCount"
-                        style="@style/upload_list_title"
-                        android:layout_marginTop="@dimen/dp_1"
-                        android:text="@string/home_download_count" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dp_16"
+                        android:orientation="horizontal">
 
-                    <androidx.recyclerview.widget.RecyclerView
+                        <TextView
+                            android:id="@+id/tvUploadCount"
+                            style="@style/upload_list_title"
+                            android:layout_marginTop="@dimen/dp_1"
+                            android:layout_weight="1"
+                            android:text="@string/home_download_count" />
+
+                        <TextView
+                            android:id="@+id/tvAllDown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_all_stop_download"
+                            android:textColor="#ff427aed"
+                            android:textSize="@dimen/textSize12"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+
+                    <com.zhiting.clouddisk.widget.SlideRecyclerView
                         android:id="@+id/rvUploading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -42,16 +60,33 @@
                         android:nestedScrollingEnabled="false"
                         android:overScrollMode="never"
                         android:paddingLeft="@dimen/dp_16"
-                        android:paddingRight="@dimen/dp_16"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                    <TextView
-                        android:id="@+id/tvCompleteCount"
-                        style="@style/upload_list_title"
-                        android:layout_marginTop="@dimen/dp_7"
-                        android:text="@string/home_downloaded_count" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dp_16"
+                        android:orientation="horizontal">
 
-                    <androidx.recyclerview.widget.RecyclerView
+                        <TextView
+                            android:id="@+id/tvCompleteCount"
+                            style="@style/upload_list_title"
+                            android:layout_marginTop="@dimen/dp_7"
+                            android:layout_weight="1"
+                            android:text="@string/home_downloaded_count" />
+
+                        <TextView
+                            android:id="@+id/tvClearAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="bottom"
+                            android:text="清空"
+                            android:textColor="#ff427aed"
+                            android:textSize="@dimen/textSize12" />
+                    </LinearLayout>
+
+
+                    <com.zhiting.clouddisk.widget.SlideRecyclerView
                         android:id="@+id/rvUploaded"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

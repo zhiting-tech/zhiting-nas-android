@@ -84,27 +84,21 @@ public class MainPresenter extends BasePresenter<MainModel, MainContract.View> i
 
     @Override
     public void getTempChannel(String areaId, String cookie, Map<String, String> map) {
-        checkTempChannel(new OnTempChannelListener() {
+        executeObservable(mModel.getTempChannel(areaId, cookie, map), new RequestDataCallback<ChannelEntity>() {
             @Override
-            public void onSuccess() {
-                super.onSuccess();
-                executeObservable(mModel.getTempChannel(areaId, cookie, map), new RequestDataCallback<ChannelEntity>() {
-                    @Override
-                    public void onSuccess(ChannelEntity response) {
-                        super.onSuccess(response);
-                        if (mView != null) {
-                            mView.onChannelSuccess(response);
-                        }
-                    }
+            public void onSuccess(ChannelEntity response) {
+                super.onSuccess(response);
+                if (mView != null) {
+                    mView.onChannelSuccess(response);
+                }
+            }
 
-                    @Override
-                    public void onFailed(int errorCode, String errorMessage) {
-                        super.onFailed(errorCode, errorMessage);
-                        if (mView != null) {
-                            mView.onChannelFail(errorCode, errorMessage);
-                        }
-                    }
-                });
+            @Override
+            public void onFailed(int errorCode, String errorMessage) {
+                super.onFailed(errorCode, errorMessage);
+                if (mView != null) {
+                    mView.onChannelFail(errorCode, errorMessage);
+                }
             }
         });
     }

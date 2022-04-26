@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/selector_family"
             android:drawablePadding="@dimen/dp_10"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="我的家"
             android:textSize="@dimen/textSize14"
             android:textColor="@color/color_427aed_a2a7ae" />

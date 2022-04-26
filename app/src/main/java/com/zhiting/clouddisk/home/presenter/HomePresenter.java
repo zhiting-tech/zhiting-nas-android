@@ -53,6 +53,8 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeContract.View> i
                         failCount++;
                         if (failCount <= 3) {
                             getFiles(scopeToken, path, map, false);
+                        } else {
+                            mView.getFilesFail(errorCode, errorMessage);
                         }
                     }
                 });
@@ -102,27 +104,21 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeContract.View> i
      */
     @Override
     public void getFolderPwdByScopeTokenAndPath(String scopeToken, String path) {
-        checkTempChannel(new OnTempChannelListener() {
+        executeDBObservable(mModel.getFolderPwdByScopeTokenAndPath(scopeToken, path), new RequestDataCallback<FolderPassword>() {
             @Override
-            public void onSuccess() {
-                super.onSuccess();
-                executeDBObservable(mModel.getFolderPwdByScopeTokenAndPath(scopeToken, path), new RequestDataCallback<FolderPassword>() {
-                    @Override
-                    public void onSuccess(FolderPassword response) {
-                        super.onSuccess(response);
-                        if (mView != null) {
-                            mView.getFolderPwdByScopeTokenAndPathSuccess(response);
-                        }
-                    }
+            public void onSuccess(FolderPassword response) {
+                super.onSuccess(response);
+                if (mView != null) {
+                    mView.getFolderPwdByScopeTokenAndPathSuccess(response);
+                }
+            }
 
-                    @Override
-                    public void onFailed() {
-                        super.onFailed();
-                        if (mView != null) {
-                            mView.getFolderPwdByScopeTokenAndPathFail();
-                        }
-                    }
-                });
+            @Override
+            public void onFailed() {
+                super.onFailed();
+                if (mView != null) {
+                    mView.getFolderPwdByScopeTokenAndPathFail();
+                }
             }
         });
     }
@@ -134,32 +130,26 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeContract.View> i
      */
     @Override
     public void insertFolderPwd(FolderPassword folderPassword) {
-        checkTempChannel(new OnTempChannelListener() {
+        executeDBObservable(mModel.insertFolderPwd(folderPassword), new RequestDataCallback<Boolean>() {
             @Override
-            public void onSuccess() {
-                super.onSuccess();
-                executeDBObservable(mModel.insertFolderPwd(folderPassword), new RequestDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean response) {
-                        super.onSuccess(response);
-                        if (mView != null) {
-                            if (response) {
-                                mView.insertFolderPwdSuccess(true);
-                            } else {
-                                mView.insertFolderFail();
-                            }
-                        }
-
+            public void onSuccess(Boolean response) {
+                super.onSuccess(response);
+                if (mView != null) {
+                    if (response) {
+                        mView.insertFolderPwdSuccess(true);
+                    } else {
+                        mView.insertFolderFail();
                     }
+                }
 
-                    @Override
-                    public void onFailed() {
-                        super.onFailed();
-                        if (mView != null) {
-                            mView.insertFolderFail();
-                        }
-                    }
-                });
+            }
+
+            @Override
+            public void onFailed() {
+                super.onFailed();
+                if (mView != null) {
+                    mView.insertFolderFail();
+                }
             }
         });
     }
@@ -171,31 +161,25 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeContract.View> i
      */
     @Override
     public void updateFolderPwd(FolderPassword folderPassword) {
-        checkTempChannel(new OnTempChannelListener() {
+        executeDBObservable(mModel.updateFolderPwd(folderPassword), new RequestDataCallback<Boolean>() {
             @Override
-            public void onSuccess() {
-                super.onSuccess();
-                executeDBObservable(mModel.updateFolderPwd(folderPassword), new RequestDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean response) {
-                        super.onSuccess(response);
-                        if (mView != null) {
-                            if (response) {
-                                mView.updateFolderPwdSuccess();
-                            } else {
-                                mView.updateFolderPwdFail();
-                            }
-                        }
+            public void onSuccess(Boolean response) {
+                super.onSuccess(response);
+                if (mView != null) {
+                    if (response) {
+                        mView.updateFolderPwdSuccess();
+                    } else {
+                        mView.updateFolderPwdFail();
                     }
+                }
+            }
 
-                    @Override
-                    public void onFailed() {
-                        super.onFailed();
-                        if (mView != null) {
-                            mView.updateFolderPwdFail();
-                        }
-                    }
-                });
+            @Override
+            public void onFailed() {
+                super.onFailed();
+                if (mView != null) {
+                    mView.updateFolderPwdFail();
+                }
             }
         });
     }

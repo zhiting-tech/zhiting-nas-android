@@ -1,98 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_white_top_c10"
+    android:orientation="vertical"
     android:paddingTop="@dimen/dp_10">
+
     <TextView
         android:id="@+id/tvTitle"
-        android:text="@string/home_file_detail"
         style="@style/dialog_title"
+        android:text="@string/home_file_detail"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tvCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
-        android:paddingRight="@dimen/dp_16"
         android:paddingLeft="@dimen/dp_10"
         android:paddingTop="@dimen/dp_9"
+        android:paddingRight="@dimen/dp_16"
         android:text="@string/home_cancel"
+        android:textColor="@color/color_1A2734"
         android:textSize="@dimen/textSize16"
-        android:textColor="@color/color_1A2734" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <LinearLayout
         android:id="@+id/llName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_22"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_16">
+
             <ImageView
                 android:id="@+id/ivLogo"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginRight="@dimen/dp_2"
                 android:src="@drawable/icon_pdf" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_home_lock"
                 android:layout_gravity="right|bottom"
+                android:src="@drawable/icon_home_lock"
                 android:visibility="gone"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:paddingRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_18"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/dp_18">
+            android:paddingRight="@dimen/dp_10">
+
             <TextView
                 android:id="@+id/tvName"
+                style="@style/file_text"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="left"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:gravity="left"
-                tools:text="2014产品部需求.pdf"
-                style="@style/file_text" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2014产品部需求.pdf" />
+
             <TextView
                 android:id="@+id/tvTime"
                 style="@style/file_detail_time"
-                app:layout_constraintTop_toBottomOf="@+id/tvName"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
                 tools:text="2021-5-12 11:11:27" />
+
             <TextView
                 android:id="@+id/tvSize"
                 style="@style/file_detail_time"
-                app:layout_constraintTop_toTopOf="@+id/tvTime"
-                app:layout_constraintLeft_toRightOf="@+id/tvTime"
                 android:layout_marginLeft="@dimen/dp_49"
+                app:layout_constraintLeft_toRightOf="@+id/tvTime"
+                app:layout_constraintTop_toTopOf="@+id/tvTime"
                 tools:text="2.5MB" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <View
         android:id="@+id/viewLine"
-       style="@style/view_eee_line"
-        app:layout_constraintTop_toBottomOf="@+id/llName"
-        android:layout_marginTop="@dimen/dp_16"
+        style="@style/view_eee_line"
         android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_15"
+        app:layout_constraintTop_toBottomOf="@+id/llName"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -8,12 +8,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhiting.clouddisk.R;
 import com.zhiting.clouddisk.adapter.FileDetailOperateAdapter;
+import com.zhiting.clouddisk.constant.Constant;
 import com.zhiting.clouddisk.entity.home.FileBean;
 import com.zhiting.clouddisk.entity.home.FileOperateBean;
-import com.zhiting.clouddisk.constant.Constant;
 import com.zhiting.clouddisk.util.FileTypeUtil;
 import com.zhiting.clouddisk.util.SpacesItemDecoration;
 import com.zhiting.networklib.dialog.BaseBottomDialog;
@@ -30,7 +29,6 @@ import java.util.List;
  */
 public class FileDetailDialog extends BaseBottomDialog {
 
-
     private ImageView ivLogo;
     private TextView tvName;
     private TextView tvTime;
@@ -38,13 +36,11 @@ public class FileDetailDialog extends BaseBottomDialog {
     private TextView tvCancel;
     private RecyclerView rvOperate;
 
-    private FileDetailOperateAdapter fileDetailOperateAdapter;
-
     private FileBean fileBean;
-
+    private FileDetailOperateAdapter fileDetailOperateAdapter;
     private List<FileOperateBean> mOperateData = new ArrayList<>();
 
-    public static FileDetailDialog getInstance(FileBean fileBean){
+    public static FileDetailDialog getInstance(FileBean fileBean) {
         Bundle args = new Bundle();
         args.putSerializable(Constant.BEAN, fileBean);
         FileDetailDialog fileDetailDialog = new FileDetailDialog();
@@ -70,10 +66,11 @@ public class FileDetailDialog extends BaseBottomDialog {
         tvSize = view.findViewById(R.id.tvSize);
         tvCancel = view.findViewById(R.id.tvCancel);
         rvOperate = view.findViewById(R.id.rvOperate);
+
         int drawableRes = R.drawable.icon_gho;
-        if (fileBean.getType() == 0){
+        if (fileBean.getType() == 0) {
             drawableRes = R.drawable.icon_file;
-        }else {
+        } else {
             /**
              * 1. word
              * 2. excel
@@ -92,22 +89,16 @@ public class FileDetailDialog extends BaseBottomDialog {
         }
         ivLogo.setImageResource(drawableRes);
         tvName.setText(fileBean.getName());
-        tvTime.setText(TimeFormatUtil.long2String(fileBean.getMod_time()*1000, TimeFormatUtil.DATE_FORMAT));
+        tvTime.setText(TimeFormatUtil.long2String(fileBean.getMod_time() * 1000, TimeFormatUtil.DATE_FORMAT));
         tvSize.setText(UnitUtil.getFormatSize(fileBean.getSize()));
         initRv();
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
+        tvCancel.setOnClickListener(v -> dismiss());
     }
 
     /**
      * 操作列表
      */
-    private void initRv(){
+    private void initRv() {
         rvOperate.setLayoutManager(new GridLayoutManager(getContext(), 3));
         HashMap<String, Integer> spaceValue = new HashMap<>();
         spaceValue.put(SpacesItemDecoration.LEFT_SPACE, UiUtil.getDimens(R.dimen.dp_10));
@@ -115,25 +106,41 @@ public class FileDetailDialog extends BaseBottomDialog {
         spaceValue.put(SpacesItemDecoration.RIGHT_SPACE, UiUtil.getDimens(R.dimen.dp_10));
         spaceValue.put(SpacesItemDecoration.BOTTOM_SPACE, UiUtil.getDimens(R.dimen.dp_7));
         SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(spaceValue);
+
         rvOperate.addItemDecoration(spacesItemDecoration);
         fileDetailOperateAdapter = new FileDetailOperateAdapter();
         rvOperate.setAdapter(fileDetailOperateAdapter);
+
         if (fileBean.getWrite() == 1) // 写权限
-        mOperateData.add(new FileOperateBean(R.drawable.icon_download_black, UiUtil.getString(R.string.home_download)));
+            mOperateData.add(new FileOperateBean(R.drawable.icon_download_black, UiUtil.getString(R.string.home_download)));
         if (fileBean.getDeleted() == 1) // 删权限
-        mOperateData.add(new FileOperateBean(R.drawable.icon_move_black, UiUtil.getString(R.string.home_move)));
+            mOperateData.add(new FileOperateBean(R.drawable.icon_move_black, UiUtil.getString(R.string.home_move)));
         mOperateData.add(new FileOperateBean(R.drawable.icon_copy_black, UiUtil.getString(R.string.home_copy)));
+        /**
+         * 1. word
+         * 2. excel
+         * 3. ppt
+         * 4. 压缩包
+         * 5. 图片
+         * 6. 音频
+         * 7. 视频
+         * 8. 文本
+         * 9. pdf
+         *
+         */
+        int fileType = FileTypeUtil.fileType(fileBean.getName());
+        if (fileType == 5 || fileType == 7 || fileType == 6 || fileType == 1 || fileType == 2 || fileType == 3|| fileType == 8|| fileType == 9)
+            mOperateData.add(new FileOperateBean(R.drawable.icon_review_black, UiUtil.getString(R.string.home_review)));
         if (fileBean.getWrite() == 1) // 写权限
-        mOperateData.add(new FileOperateBean(R.drawable.icon_rename_black, UiUtil.getString(R.string.home_rename)));
+            mOperateData.add(new FileOperateBean(R.drawable.icon_rename_black, UiUtil.getString(R.string.home_rename)));
         if (fileBean.getDeleted() == 1) // 删权限
-        mOperateData.add(new FileOperateBean(R.drawable.icon_remove_black, UiUtil.getString(R.string.home_remove)));
+            mOperateData.add(new FileOperateBean(R.drawable.icon_remove_black, UiUtil.getString(R.string.home_remove)));
+
         fileDetailOperateAdapter.setNewData(mOperateData);
-        fileDetailOperateAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (operateListener!=null){
-                    operateListener.onOperate(position, fileBean);
-                }
+        fileDetailOperateAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (operateListener != null) {
+                String fileTypeName = fileDetailOperateAdapter.getData().get(position).getName();
+                operateListener.onOperate(fileTypeName, fileBean);
             }
         });
     }
@@ -148,7 +155,7 @@ public class FileDetailDialog extends BaseBottomDialog {
         this.operateListener = operateListener;
     }
 
-    public interface OnOperateListener{
-        void onOperate(int position, FileBean fileBean);
+    public interface OnOperateListener {
+        void onOperate(String fileTypeName, FileBean fileBean);
     }
 }

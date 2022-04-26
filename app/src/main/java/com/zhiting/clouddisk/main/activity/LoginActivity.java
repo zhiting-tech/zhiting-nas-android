@@ -19,12 +19,16 @@ import com.zhiting.clouddisk.constant.Constant;
 import com.zhiting.clouddisk.databinding.ActivityLoginBinding;
 import com.zhiting.clouddisk.dialog.AgreementDialog;
 import com.zhiting.clouddisk.entity.AuthBackBean;
+import com.zhiting.clouddisk.entity.ExtensionTokenListBean;
+import com.zhiting.clouddisk.entity.LoginBean;
+import com.zhiting.clouddisk.entity.LoginEntity;
 import com.zhiting.clouddisk.home.activity.WebActivity;
 import com.zhiting.clouddisk.main.contract.LoginContract;
 import com.zhiting.clouddisk.main.presenter.LoginPresenter;
 import com.zhiting.clouddisk.util.ChannelUtil;
 import com.zhiting.clouddisk.util.FastUtil;
 import com.zhiting.clouddisk.util.IntentConstant;
+import com.zhiting.networklib.constant.BaseConstant;
 import com.zhiting.networklib.constant.SpConstant;
 import com.zhiting.networklib.entity.ChannelEntity;
 import com.zhiting.networklib.http.HttpConfig;
@@ -61,7 +65,7 @@ public class LoginActivity extends BaseMVPDBActivity<ActivityLoginBinding, Login
         super.initUI();
         binding.setHandler(new OnClickHandler());
         binding.tvAgreementPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-        binding.tvAgreementPolicy.setText(StringUtil.setAgreementAndPolicyStyle(UiUtil.getString(R.string.agree_user_agreement_and_private_policy), UiUtil.getColor(R.color.color_2da3f6), this));
+        binding.tvAgreementPolicy.setText(StringUtil.setAgreementAndPolicyStyle(UiUtil.getString(R.string.agree_user_agreement_and_private_policy), UiUtil.getColor(R.color.color_2da3f6), true,true, this));
         boolean agreed = SpUtil.getBoolean(Constant.AGREED); // 是否同意过用户协议
         if (agreed) {
             basePermissionTask();
@@ -112,6 +116,11 @@ public class LoginActivity extends BaseMVPDBActivity<ActivityLoginBinding, Login
     }
 
 
+    @Override
+    public void onHead() {
+
+    }
+
     /**
      * 查看用户协议
      */
@@ -150,6 +159,31 @@ public class LoginActivity extends BaseMVPDBActivity<ActivityLoginBinding, Login
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void loginSuccess(LoginBean loginBean) {
+
+    }
+
+    @Override
+    public void login2Success(LoginEntity loginEntity) {
+
+    }
+
+    @Override
+    public void loginFail(int errorCode, String msg) {
+
+    }
+
+    @Override
+    public void getExtensionTokenListSuccess(ExtensionTokenListBean extensionTokenListBean) {
+
+    }
+
+    @Override
+    public void getExtensionTokenListFail(int errorCode, String msg) {
+
+    }
+
     /**
      * 点击事件
      */
@@ -158,7 +192,7 @@ public class LoginActivity extends BaseMVPDBActivity<ActivityLoginBinding, Login
             int viewId = view.getId();
             if (viewId == R.id.tvLogin) { // 登录
                 if (binding.ivSel.isSelected()) {
-                    if (AppUtil.isMobile_spExist(CDApplication.getContext(), "com.yctc.zhiting")) {
+                    if (AppUtil.isMobile_spExist(CDApplication.getContext(), "com.zhiting")) {
                         LogUtil.d("=================登录============");
                         Intent intent = new Intent();
                         intent.setData(Uri.parse(mUri));//参数拼接在URI后面 type=1是授权页面,user_package_name使用者包名,后续参数可自行添加
@@ -206,6 +240,7 @@ public class LoginActivity extends BaseMVPDBActivity<ActivityLoginBinding, Login
 
         Constant.cookies = authBackBean.getCookies();
         Constant.scope_token = authBackBean.getStBean().getToken();//scopeToken
+        BaseConstant.SCOPE_TOKEN = authBackBean.getStBean().getToken();//scopeToken
         Constant.USER_ID = authBackBean.getUserId();//用户 id
         Constant.userName = authBackBean.getUserName();//用户名称
 
@@ -213,6 +248,7 @@ public class LoginActivity extends BaseMVPDBActivity<ActivityLoginBinding, Login
         if (Constant.currentHome == null) return;
 
         Constant.AREA_ID = Constant.currentHome.getId();
+        BaseConstant.AREA_ID = Constant.currentHome.getId();
         Constant.HOME_NAME = Constant.currentHome.getName();
         SpUtil.put(SpConstant.HOME_ID, String.valueOf(Constant.AREA_ID));
         SpUtil.put(SpConstant.SA_TOKEN, Constant.currentHome.getSa_user_token());

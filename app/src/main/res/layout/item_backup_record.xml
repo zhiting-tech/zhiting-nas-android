@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_36"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_2">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:round="@dimen/dp_2"
+                tools:src="@drawable/icon_file" />
+
+            <ImageView
+                android:id="@+id/ivVideo"
+                android:layout_width="@dimen/dp_8"
+                android:layout_height="@dimen/dp_10"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_play_video"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/file_text"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="我的文件" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                style="@style/file_detail_time"
+                android:layout_marginTop="@dimen/dp_8"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="2021-5-12 11:11:27" />
+
+            <TextView
+                android:id="@+id/tvSize"
+                style="@style/file_detail_time"
+                android:layout_marginLeft="@dimen/dp_49"
+                app:layout_constraintLeft_toRightOf="@+id/tvTime"
+                app:layout_constraintTop_toTopOf="@+id/tvTime"
+                tools:text="2.5MB" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <include layout="@layout/item_delete" />
+
+</LinearLayout>

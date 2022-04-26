@@ -1,3 +1,13 @@
+平时开发Demo和工具类
+1、沉浸式设置：
+//当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+StatusBarUtil.setRootViewFitsSystemWindows(this, true);
+//设置状态栏透明
+StatusBarUtil.setTranslucentStatus(this);
+//给rootView设置padding值，适配导航栏
+StatusBarUtil.fitNotchScreen(this, new TextView(this));
+StatusBarUtil.setStatusBarDarkTheme(this, false);
+
 1、Gonet文件上传下载中方法（注意：需要assets中mobile.db复制到手机SD）
 - GetFileDownloader，GetDirDownloader获取下载对象（开始下载.Start, 暂停下载.OnPause, 删除下载.OnDelete）
 - GetDownloadList 获取下载列表

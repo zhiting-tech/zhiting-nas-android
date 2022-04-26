@@ -153,8 +153,8 @@ public class UiUtil {
      * 从主线程looper里面移除runnable
      */
     public static void removeCallbacks(Runnable runnable) {
-        if(runnable!=null)
-        getHandler().removeCallbacks(runnable);
+        if (runnable != null)
+            getHandler().removeCallbacks(runnable);
     }
 
     /**
@@ -216,10 +216,12 @@ public class UiUtil {
     }
 
     public static void runInMainThread(Runnable runnable) {
-        if (isRunInMainThread()) {
-            runnable.run();
-        } else {
-            post(runnable);
+        if (runnable != null) {
+            if (isRunInMainThread()) {
+                runnable.run();
+            } else {
+                post(runnable);
+            }
         }
     }
 
@@ -340,6 +342,7 @@ public class UiUtil {
 
     /**
      * 获取字符串中的数字，并且返回整形
+     *
      * @param content
      * @return
      */
@@ -349,7 +352,7 @@ public class UiUtil {
             Pattern p = Pattern.compile("\\d+");
             Matcher m = p.matcher(content);
             m.find();
-            if(TextUtils.isEmpty(m.group())){
+            if (TextUtils.isEmpty(m.group())) {
                 return 0;
             }
             return Integer.parseInt(m.group());
@@ -361,19 +364,20 @@ public class UiUtil {
 
     /**
      * 把view转图片保存
+     *
      * @param view
      */
-    public static void saveViewBitmap(View view, Handler handler){
+    public static void saveViewBitmap(View view, Handler handler) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/DCIM/Camera/";
+                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera/";
                 long time = System.currentTimeMillis();
                 File dirFile = new File(filePath);
-                if (!dirFile.exists()){
+                if (!dirFile.exists()) {
                     dirFile.mkdirs();
                 }
-                File file = new File(filePath, time+".png");
+                File file = new File(filePath, time + ".png");
 
                 try {
                     file.createNewFile();
@@ -388,7 +392,7 @@ public class UiUtil {
                     fos.flush();
                     fos.close();
 
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -397,10 +401,11 @@ public class UiUtil {
 
     /**
      * view转bitmap
+     *
      * @param view
      * @return
      */
-    public static Bitmap createViewBitmap(View view){
+    public static Bitmap createViewBitmap(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
@@ -431,7 +436,7 @@ public class UiUtil {
                 file.mkdir();
             }
         } catch (Exception e) {
-            Log.i("error:", e+"");
+            Log.i("error:", e + "");
         }
     }
 }

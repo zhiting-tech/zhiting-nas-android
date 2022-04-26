@@ -11,6 +11,7 @@ public class AuthBackBean {
     private String userName;  // 用户昵称
     private HomeCompanyBean homeCompanyBean; // 家庭信息
     private ScopeBean stBean;  // 授权token和过期时间
+    private boolean selected;
     private List<Cookie> cookies;  // 登录SC时的cookie
 
     public int getUserId() {
@@ -43,6 +44,14 @@ public class AuthBackBean {
 
     public void setStBean(ScopeBean stBean) {
         this.stBean = stBean;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public List<Cookie> getCookies() {

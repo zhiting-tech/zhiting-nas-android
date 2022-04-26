@@ -11,8 +11,6 @@ import com.zhiting.clouddisk.R;
 import com.zhiting.networklib.dialog.CommonBaseDialog;
 import com.zhiting.networklib.utils.UiUtil;
 
-import retrofit2.http.PATCH;
-
 public class ConfirmDialog extends CommonBaseDialog {
 
     private TextView tvTitle;
@@ -24,11 +22,10 @@ public class ConfirmDialog extends CommonBaseDialog {
     private String confirmText;
     private boolean mCancelable;
 
-    public static ConfirmDialog getInstance(){
+    public static ConfirmDialog getInstance() {
         ConfirmDialog confirmDialog = new ConfirmDialog();
         return confirmDialog;
     }
-
 
     @Override
     protected int getLayoutResource() {
@@ -68,11 +65,11 @@ public class ConfirmDialog extends CommonBaseDialog {
         tvTitle.setVisibility(TextUtils.isEmpty(title) ? View.GONE : View.VISIBLE);
         tvContent.setVisibility(TextUtils.isEmpty(content) ? View.GONE : View.VISIBLE);
         if (!TextUtils.isEmpty(confirmText))
-        tvConfirm.setText(confirmText);
+            tvConfirm.setText(confirmText);
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (confirmListener!=null){
+                if (confirmListener != null) {
                     confirmListener.onConfirm();
                 }
             }
@@ -95,7 +92,7 @@ public class ConfirmDialog extends CommonBaseDialog {
         this.confirmListener = confirmListener;
     }
 
-    public interface OnConfirmListener{
+    public interface OnConfirmListener {
         void onConfirm();
     }
 }

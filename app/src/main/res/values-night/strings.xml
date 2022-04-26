@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_delete">删除</string>
+    <string name="home_all_start_upload">全部上传</string>
+    <string name="home_all_stop_upload">全部暂停</string>
+    <string name="home_all_start_download">全部下载</string>
+    <string name="home_all_stop_download">全部暂停</string>
+    <string name="common_user_traffic_tip">当前正在使用移动流量，使用会消耗较多 流量，是否继续</string>
+    <string name="mine_clear_cache_tips">确认清理应用缓存数据吗？</string>
+</resources>

@@ -10,6 +10,14 @@ public class ScopeBean {
     private String token;
     private int expires_in;  // 有效期，单位为秒
 
+    public ScopeBean() {
+    }
+
+    public ScopeBean(String token) {
+        this.token = token;
+    }
+
+
     public String getToken() {
         return token;
     }

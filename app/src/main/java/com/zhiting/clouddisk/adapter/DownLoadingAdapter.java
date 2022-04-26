@@ -1,19 +1,34 @@
 package com.zhiting.clouddisk.adapter;
 
+import androidx.annotation.NonNull;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhiting.clouddisk.R;
 import com.zhiting.clouddisk.entity.home.DownLoadFileBean;
-import com.zhiting.clouddisk.entity.home.UploadFileBean;
 import com.zhiting.clouddisk.util.FileTypeUtil;
-import com.zhiting.networklib.utils.LogUtil;
 import com.zhiting.networklib.utils.UiUtil;
 import com.zhiting.networklib.utils.UnitUtil;
+
+import java.util.List;
 
 public class DownLoadingAdapter extends BaseQuickAdapter<DownLoadFileBean, BaseViewHolder> {
 
     public DownLoadingAdapter() {
         super(R.layout.item_downloading);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder helper, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(helper, position, payloads);
+        if (payloads.isEmpty()) {
+            onBindViewHolder(helper, position);
+        } else if (helper != null) {
+            DownLoadFileBean fileBean = (DownLoadFileBean) payloads.get(0);
+            if (fileBean != null) {
+                setStatus(helper, fileBean);
+            }
+        }
     }
 
     @Override
@@ -27,15 +42,20 @@ public class DownLoadingAdapter extends BaseQuickAdapter<DownLoadFileBean, BaseV
         }
         helper.setGone(R.id.ivError, false);
         helper.setText(R.id.tvName, item.getName());
-        String uploaded = UnitUtil.getFormatSize(item.getDownloaded()) + "/" + UnitUtil.getFormatSize(item.getSize());
-        helper.setText(R.id.tvSpeed, uploaded);
+
+        setStatus(helper, item);
         helper.addOnClickListener(R.id.ivStatus);
         helper.addOnClickListener(R.id.ivError);
-        helper.addOnClickListener(R.id.tvStatus);
-        int progress = (int) ((item.getDownloaded() * 1.0 / item.getSize())*100);
-        helper.setProgress(R.id.rb, progress);
+        helper.addOnClickListener(R.id.tvDelete);
+    }
 
-        //文件状态
+    //文件状态
+    private void setStatus(BaseViewHolder helper, DownLoadFileBean item) {
+        String uploaded = UnitUtil.getFormatSize(item.getDownloaded()) + "/" + UnitUtil.getFormatSize(item.getSize());
+        helper.setText(R.id.tvSpeed, uploaded);
+
+        int progress = (int) ((item.getDownloaded() * 1.0 / item.getSize()) * 100);
+        helper.setProgress(R.id.rb, progress);
         if (item.getStatus() == 0 || item.getStatus() == 2) {
             helper.setText(R.id.tvStatus, UiUtil.getString(R.string.home_wait_download));
             helper.setTextColor(R.id.tvStatus, UiUtil.getColor(R.color.color_A2A7AE));

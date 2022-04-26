@@ -47,7 +47,7 @@ import java.util.Locale;
 public class AndroidUtil {
 
     private static final String TAG = "AndroidUtil";
-    private static final String NET_WIFI = "WIFI";
+    public static final String NET_WIFI = "WIFI";
     private static final String NET_4G = "4G";
     private static final String NET_3G = "3G";
     private static final String NET_2G = "2G";

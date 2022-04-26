@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,14 +13,9 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-
-import androidx.core.content.FileProvider;
-
-import com.zhiting.networklib.R;
 import com.zhiting.networklib.utils.BasePackageUtil;
 import com.zhiting.networklib.utils.LibLoader;
 import com.zhiting.networklib.utils.LogUtil;
-import com.zhiting.networklib.utils.TimeFormatUtil;
 import com.zhiting.networklib.utils.UiUtil;
 
 import java.io.BufferedOutputStream;
@@ -34,11 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 //类作用描述：文件的增删等操作，定义各种业务逻辑的 文件夹路径
 public class BaseFileUtil {
@@ -46,6 +37,7 @@ public class BaseFileUtil {
     public static final String ROOT_DIR = BasePackageUtil.getPackageName();
     public static final String DOWNLOAD_DIR = "download";
     public static final String CACHE_DIR = "cache";
+    public static final String PREVIEW_CACHE_DIR = "preview_cache_dir";
     public static final String IMAGE_DIR = "image";
     public static final String HTTP_CACHE_DIR = "http_cache";
 
@@ -153,6 +145,10 @@ public class BaseFileUtil {
      */
     public static String getCacheDir() {
         return getDir(CACHE_DIR);
+    }
+
+    public static String getPreCacheDir() {
+        return getDir(PREVIEW_CACHE_DIR);
     }
 
     /**
@@ -268,7 +264,7 @@ public class BaseFileUtil {
      * @param assetsFileName assets目录下的文件名
      * @param targetPath     目标文件夹路径
      */
-    public static void copyAssetData(String assetsFileName, String targetPath) {
+    public static void copyAssetData(String assetsFileName, String targetPath, OnCopyListener listener) {
         new Thread(() -> {
             try {
                 AssetManager am = UiUtil.getContext().getAssets();
@@ -287,10 +283,15 @@ public class BaseFileUtil {
                 fos.flush();
                 close(fos);
                 close(is);
+                listener.onSuccess();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public interface OnCopyListener {
+        void onSuccess();
     }
 
     /**
@@ -452,110 +453,6 @@ public class BaseFileUtil {
         }
     }
 
-    public static String getFilePath(String fileName) {
-        StringBuilder sb = new StringBuilder();
-        if (isSDCardAvailable()) {
-            sb.append(getExternalStoragePath());
-        } else {
-            sb.append(getAppCachePath());
-        }
-        String path = sb.toString();
-        createDirs(path);
-        sb.append(fileName);
-        return sb.toString();
-    }
-
-    /**
-     * 打印错误日志
-     *
-     * @param ex
-     */
-    public static String writeErrorLog(Throwable ex) {
-        String info = null;
-        ByteArrayOutputStream baos = null;
-        PrintStream printStream = null;
-        try {
-            baos = new ByteArrayOutputStream();
-            printStream = new PrintStream(baos);
-            ex.printStackTrace(printStream);
-            byte[] data = baos.toByteArray();
-            info = new String(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (printStream != null) {
-                    printStream.close();
-                }
-                if (baos != null) {
-                    baos.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        LogUtil.d("崩溃信息\n" + info);
-        File dir = new File(BaseFileUtil.getExternalStoragePath());
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        File file = new File(dir, "errorLog" + TimeFormatUtil.getSysTime() + ".txt");
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file, true);
-            assert info != null;
-            fileOutputStream.write(info.getBytes());
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return info;
-    }
-
-    public static String getVideoFileName() {
-        Date date = new Date(System.currentTimeMillis());// 获取当前的系统的时间
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyyMMddHHmmss");
-        return "/android_" + dateFormat.format(date) + (int) ((Math.random() * 9 + 1) * 10000) + ".mp4";
-    }
-
-    /**
-     * 获取项目根目录
-     *
-     * @return
-     */
-    public static String getRootDir() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath();
-    }
-
-    /**
-     * 获取项目地址
-     *
-     * @return
-     */
-    public static String getProjectDir() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/clouddisk";
-    }
-
-    /**
-     * 获取视频的根目录
-     *
-     * @return
-     */
-    public static String getMovieDir() {
-        return getProjectDir() + "/videos/";
-    }
-
-    /**
-     * 获取文件的大小
-     *
-     * @param filePath
-     * @return
-     */
-    public static float getFileSize(String filePath) {
-        if (TextUtils.isEmpty(filePath)) return 0f;
-        return new File(filePath).length() / 1024f / 1024f;
-    }
-
     /**
      * 获取项目缓存的地址
      *
@@ -580,7 +477,7 @@ public class BaseFileUtil {
      * @return
      */
     public static String getCachePath(Context context) {
-        String videoPath = getProjectCachePath(context) + File.separator + "cache";
+        String videoPath = getProjectCachePath(context) + File.separator + CACHE_DIR;
         File file = new File(videoPath);
         if (!file.exists()) {
             file.mkdirs();
@@ -588,18 +485,13 @@ public class BaseFileUtil {
         return videoPath;
     }
 
-    /**
-     * 获取http网络缓存地址
-     *
-     * @return
-     */
-    public static String getHttpCachePath() {
-        String httpPath = getProjectCachePath(LibLoader.getApplication()) + File.separator + "http";
-        File file = new File(httpPath);
+    public static String getDownloadPath(Context context) {
+        String videoPath = getProjectCachePath(context) + File.separator + DOWNLOAD_DIR;
+        File file = new File(videoPath);
         if (!file.exists()) {
             file.mkdirs();
         }
-        return httpPath;
+        return videoPath;
     }
 
     /**
@@ -677,16 +569,16 @@ public class BaseFileUtil {
             else if (isDownloadsDocument(uri)) {
                 try {
                     final String id = DocumentsContract.getDocumentId(uri);
-                    if (id.startsWith("raw")){
+                    if (id.startsWith("raw")) {
                         String[] path = id.split(":");
                         return path[1];
-                    }else {
+                    } else {
                         final Uri contentUri = ContentUris.withAppendedId(
                                 Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
                         return getDataColumn(context, contentUri, null, null);
                     }
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     e.printStackTrace();
                     return null;
                 }

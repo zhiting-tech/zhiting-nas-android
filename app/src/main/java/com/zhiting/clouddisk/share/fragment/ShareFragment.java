@@ -8,11 +8,14 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.zhiting.clouddisk.R;
 import com.zhiting.clouddisk.adapter.HomeFileAdapter;
 import com.zhiting.clouddisk.databinding.FragmentShareBinding;
+import com.zhiting.clouddisk.entity.AuthBackBean;
 import com.zhiting.clouddisk.entity.FileListBean;
 import com.zhiting.clouddisk.entity.home.FileBean;
 import com.zhiting.clouddisk.event.CancelFileOperateEvent;
+import com.zhiting.clouddisk.event.ChangeHomeEvent;
 import com.zhiting.clouddisk.event.OperateFileEvent;
 import com.zhiting.clouddisk.event.RefreshAuthEvent;
+import com.zhiting.clouddisk.event.RefreshDataEvent;
 import com.zhiting.clouddisk.event.UploadDownloadEvent;
 import com.zhiting.clouddisk.home.activity.FileDetailActivity;
 import com.zhiting.clouddisk.home.activity.UpDownLoadActivity;
@@ -117,11 +120,6 @@ public class ShareFragment extends BaseMVPDBFragment<FragmentShareBinding, Share
                 FileBean fileBean = homeFileAdapter.getItem(position);
                 fileBean.setSelected(!fileBean.isSelected());
                 homeFileAdapter.notifyItemChanged(position);
-//                if (homeFileAdapter.getSelectedSize() == 1){  // 只选中一个的时候，把选中的那个实体也发送过去
-//                    EventBus.getDefault().post(new OperateFileEvent(homeFileAdapter.getSelectedSize(), homeFileAdapter.isOnlyFolder(), homeFileAdapter.getOneSelectedData()));
-//                }else {
-//                    EventBus.getDefault().post(new OperateFileEvent(homeFileAdapter.getSelectedSize(), homeFileAdapter.isOnlyFolder()));
-//                }
                 EventBus.getDefault().post(new OperateFileEvent(homeFileAdapter.isOnlyFolder(), homeFileAdapter.getSelectedData()));
                 binding.rrv.setRefreshAndLoadMore(homeFileAdapter.getSelectedSize() <= 0);
             }
@@ -154,8 +152,31 @@ public class ShareFragment extends BaseMVPDBFragment<FragmentShareBinding, Share
         uploadDownCount();
     }
 
+    /**
+     * 找到sa地址后刷新数据
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(RefreshDataEvent event){
+        if (homeFileAdapter != null && CollectionUtil.isNotEmpty(homeFileAdapter.getData())){
+            getData( false);
+        }
+    }
+
+    /**
+     * 家庭改变之后刷新数据
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ChangeHomeEvent event) {
+        binding.rrv.setVisibility(View.GONE);
+        if (isVisible()) {
+            getData(true);
+        }
+    }
+
     private void uploadDownCount() {
-        int fileCount = GonetUtil.getUnderwayFileCount();
+        int fileCount = GonetUtil.getUnderwayFileCount()+ GonetUtil.getBackupFileCount();
         LogUtil.e("onMessageEvent2==" + fileCount);
         if (fileCount == 0) {
             binding.tvFileCount.setVisibility(View.GONE);
@@ -204,8 +225,18 @@ public class ShareFragment extends BaseMVPDBFragment<FragmentShareBinding, Share
             List<FileBean> files = fileListBean.getList();
             homeFileAdapter.setNewData(files);
             binding.rrv.finishRefresh(true);
+            if (binding.rrv.getVisibility() != View.VISIBLE) {
+                binding.rrv.setVisibility(View.VISIBLE);
+            }
             binding.rrv.showEmptyView(CollectionUtil.isEmpty(files));
         }
+    }
+
+    @Override
+    protected void selectedHome(AuthBackBean authBackBean) {
+        super.selectedHome(authBackBean);
+        binding.tvHome.setText(authBackBean.getHomeCompanyBean().getName());
+        getData(true);
     }
 
     /**
@@ -217,6 +248,12 @@ public class ShareFragment extends BaseMVPDBFragment<FragmentShareBinding, Share
     @Override
     public void getFilesFail(int errorCode, String msg) {
 
+    }
+
+    @Override
+    public void showError(int errorCode, String msg) {
+        super.showError(errorCode, msg);
+        binding.rrv.finishRefresh(false);
     }
 
     /**

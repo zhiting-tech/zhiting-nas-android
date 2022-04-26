@@ -9,8 +9,10 @@ import com.google.gson.JsonSyntaxException;
 import com.zhiting.networklib.constant.SpConstant;
 import com.zhiting.networklib.entity.BaseUrlEvent;
 import com.zhiting.networklib.entity.ChannelEntity;
+import com.zhiting.networklib.event.FourZeroFourEvent;
 import com.zhiting.networklib.factory.BaseApiServiceFactory;
 import com.zhiting.networklib.http.HttpConfig;
+import com.zhiting.networklib.http.RetrofitManager;
 import com.zhiting.networklib.utils.ErrorConstant;
 import com.zhiting.networklib.utils.LogUtil;
 import com.zhiting.networklib.utils.SpUtil;
@@ -98,13 +100,14 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
                         e.printStackTrace();
                         String error = "";
                         if (e instanceof ConnectException || e instanceof UnknownHostException) {
+                            EventBus.getDefault().post(new FourZeroFourEvent());
                             error = "网络异常，请检查网络";
                         } else if (e instanceof TimeoutException || e instanceof SocketTimeoutException) {
                             error = "网络不畅，请稍后再试！";
                         } else if (e instanceof JsonSyntaxException) {
                             error = "数据解析异常";
                         } else {
-                            //error = "服务端错误";
+                            error = "服务端错误";
                         }
                         if (mView != null) {
                             if (callback != null && callback.isLoading())
@@ -183,7 +186,7 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
 
     public void checkTempChannel(OnTempChannelListener listener) {
         boolean isSA = SpUtil.getBoolean(SpConstant.IS_SA);
-        if (isSA && HttpConfig.baseTestUrl.contains(HttpConfig.baseSAHost)) {
+        if (isSA && !TextUtils.isEmpty(HttpConfig.baseSAHost) && HttpConfig.baseTestUrl.contains(HttpConfig.baseSAHost)) {
             listener.onSuccess();
         } else {
             if (isWithinTime()) {
@@ -221,13 +224,13 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
         String areaId = SpUtil.getString(SpConstant.HOME_ID);
         String cookie = SpUtil.getString(SpConstant.COOKIE);
         Map<String, String> map = new HashMap<>();
-        map.put("scheme", "http");
+        map.put("scheme", RetrofitManager.HTTPS);
         Observable observable = BaseApiServiceFactory.getApiService().getChannel(areaId, cookie, map);
         executeObservable(observable, new RequestDataCallback<ChannelEntity>(false) {
             @Override
             public void onSuccess(ChannelEntity response) {
                 super.onSuccess(response);
-                String newUrl = "http://" + response.getHost() + "/";
+                String newUrl = RetrofitManager.HTTPS_HEAD + response.getHost() + "/";
                 LogUtil.e("realCheckTemporaryChannel===" + newUrl);
                 EventBus.getDefault().post(new BaseUrlEvent(newUrl));
                 UiUtil.postDelayed(() -> {

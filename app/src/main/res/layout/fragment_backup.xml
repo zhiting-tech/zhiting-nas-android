@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/llData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llFailTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvBackupFailCount"
+                        style="@style/upload_list_title"
+                        android:layout_marginTop="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:text="@string/home_backup_fail" />
+
+                    <TextView
+                        android:id="@+id/tvRetry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_all_retry"
+                        android:textColor="#ff427aed"
+                        android:textSize="@dimen/textSize12"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <com.zhiting.clouddisk.widget.SlideRecyclerView
+                    android:id="@+id/rvBackupFail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_3"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:paddingLeft="@dimen/dp_16"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_back"/>
+
+                <LinearLayout
+                    android:id="@+id/llOnTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvBackupOn"
+                        style="@style/upload_list_title"
+                        android:layout_marginTop="@dimen/dp_7"
+                        android:layout_weight="1"
+                        android:text="@string/home_backup_on" />
+
+                    <TextView
+                        android:id="@+id/tvAllPause"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:text="@string/home_all_pause"
+                        android:textColor="#ff427aed"
+                        android:textSize="@dimen/textSize12" />
+
+                </LinearLayout>
+
+                <com.zhiting.clouddisk.widget.SlideRecyclerView
+                    android:id="@+id/rvBackupOn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_back"/>
+
+                <LinearLayout
+                    android:id="@+id/llRecordTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvRecordCount"
+                        style="@style/upload_list_title"
+                        android:layout_marginTop="@dimen/dp_7"
+                        android:layout_weight="1"
+                        android:text="@string/home_backup_record" />
+
+                    <TextView
+                        android:id="@+id/tvClear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:text="@string/home_clear"
+                        android:textColor="#ff427aed"
+                        android:textSize="@dimen/textSize12"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <com.zhiting.clouddisk.widget.SlideRecyclerView
+                    android:id="@+id/rvBackupRecord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_backup_record"/>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/empty"
+                layout="@layout/layout_empty"
+                android:visibility="visible"
+                tools:visibility="visible" />
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

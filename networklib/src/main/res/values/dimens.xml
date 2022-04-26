@@ -216,9 +216,11 @@
     <dimen name="dp_500">500dp</dimen>
     <dimen name="dp_269">269dp</dimen>
     <dimen name="dp_180">180dp</dimen>
+    <dimen name="dp_325">325dp</dimen>
     <dimen name="dp_326">326dp</dimen>
     <dimen name="dp_383">383dp</dimen>
     <dimen name="dp_345">345dp</dimen>
+    <dimen name="dp_350">350dp</dimen>
     <dimen name="dp_600">600dp</dimen>
     <dimen name="dp_135">135dp</dimen>
     <dimen name="dp_490">490dp</dimen>

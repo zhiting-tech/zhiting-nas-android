@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.zhiting.networklib.widget.StatusBarView
+            android:id="@+id/sbView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingBottom="@dimen/dp_8"
+            android:src="@drawable/icon_back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sbView" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff1a2734"
+            android:textSize="@dimen/textSize18"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/ivBack"
+            app:layout_constraintLeft_toRightOf="@id/ivBack"
+            app:layout_constraintTop_toTopOf="@id/ivBack"
+            tools:text="这是音频.mp4" />
+
+        <com.zhiting.clouddisk.widget.AudioSampleVideo
+            android:id="@+id/detail_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <RelativeLayout
+            android:id="@+id/rlMusic"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"
+            android:layout_marginTop="@dimen/dp_78"
+            android:background="@drawable/icon_audio_bg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <ImageView
+                android:id="@+id/ivMusic"
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_audio_music" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/llMusic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_80"
+            android:layout_marginRight="@dimen/dp_14"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rlMusic">
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#ff427aed"
+                android:textSize="@dimen/textSize11" />
+
+            <SeekBar
+                android:id="@+id/sbProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@null"
+                android:max="100"
+                android:maxHeight="4dp"
+                android:minHeight="4dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:progressDrawable="@drawable/video_seek_progress"
+                android:thumb="@drawable/shape_video_seek_blue_thumb" />
+
+            <TextView
+                android:id="@+id/tvDurationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#ffa2a7ae"
+                android:textSize="@dimen/textSize11" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivPlayMusic"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginTop="@dimen/dp_50"
+            android:src="@drawable/selector_audio_play_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llMusic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

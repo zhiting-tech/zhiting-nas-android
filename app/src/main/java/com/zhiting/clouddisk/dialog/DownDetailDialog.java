@@ -94,13 +94,7 @@ public class DownDetailDialog extends BaseBottomDialog {
         tvSize.setText(FileUtil.getReadableFileSize(size));
 
         initRv();
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
+        tvCancel.setOnClickListener(v -> dismiss());
     }
 
     /**
@@ -117,6 +111,7 @@ public class DownDetailDialog extends BaseBottomDialog {
         rvOperate.addItemDecoration(spacesItemDecoration);
         fileDetailOperateAdapter = new FileDetailOperateAdapter();
         rvOperate.setAdapter(fileDetailOperateAdapter);
+        mOperateData.add(new FileOperateBean(R.drawable.icon_review_black, UiUtil.getString(R.string.common_look)));
         mOperateData.add(new FileOperateBean(R.drawable.icon_other_app_open, UiUtil.getString(R.string.home_other_app_open)));
         fileDetailOperateAdapter.setNewData(mOperateData);
         fileDetailOperateAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

@@ -1,16 +1,22 @@
 package com.zhiting.networklib.utils.pictureselectorutil;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Parcelable;
 
+import com.luck.picture.lib.PictureExternalPreviewActivity;
 import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.tools.DoubleUtils;
 import com.zhiting.networklib.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -116,5 +122,29 @@ public class PicSelectorUtils {
                 //.bindCustomPlayVideoCallback(new MyVideoSelectedPlayCallback(getContext()))// 自定义播放回调控制，用户可以使用自己的视频播放界面
                 .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
                 .openExternalPreview(position, selectList);
+    }
+
+    /**
+     * 预览图片
+     *
+     * @param position
+     * @param selectList
+     */
+    public static void openPreviewCustomImages(Activity activity,int position, List<LocalMedia> selectList,Class preViewClass) {
+        PictureSelector.create(activity)
+                .themeStyle(com.zhiting.networklib.R.style.picture_default_style) // xml设置主题
+                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)// 设置相册Activity方向，不设置默认使用系统
+                .isNotPreviewDownload(true)// 预览图片长按是否可以下载
+                .imageEngine(GlideEngine.createGlideEngine());
+
+        int enterAnimation = PictureSelectionConfig.windowAnimationStyle.activityPreviewEnterAnimation;
+        if (!DoubleUtils.isFastDoubleClick()) {
+            Intent intent = new Intent(activity, preViewClass);
+            intent.putParcelableArrayListExtra(PictureConfig.EXTRA_PREVIEW_SELECT_LIST,
+                    (ArrayList<? extends Parcelable>) selectList);
+            intent.putExtra(PictureConfig.EXTRA_POSITION, position);
+            activity.startActivity(intent);
+            activity.overridePendingTransition(enterAnimation != 0 ? enterAnimation : R.anim.picture_anim_enter, R.anim.picture_anim_fade_in);
+        }
     }
 }

@@ -18,7 +18,6 @@ public class StoragePoolListPresenter extends BasePresenter<StoragePoolListModel
         return new StoragePoolListModel();
     }
 
-
     /**
      * 获取存储池列表
      *

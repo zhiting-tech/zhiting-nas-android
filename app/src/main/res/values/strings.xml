@@ -6,14 +6,29 @@
     <string name="main_mine">我的</string>
 
 
-    <string name="main_login">智汀家庭云快速登录</string>
+    <string name="main_login_fast">智汀家庭云快速登录</string>
     <string name="main_please_install_zhiting">请先安装 "智汀家庭云" APP</string>
+    <string name="main_please_input_phone_number">请输入手机号</string>
+    <string name="main_please_input_password">请输入密码</string>
+    <string name="main_login">登录</string>
+    <string name="main_please_select_home_company">请选择家庭/公司</string>
+    <string name="main_no_select_home_company">暂无可选择的家庭/公司</string>
+    <string name="main_please_input_correct_phone">请输入正确的手机号码</string>
+    <string name="main_account_or_pwd_invalid">当前账号或密码错误，请重新输入账号或密码</string>
+    <string name="main_area_not_support">该区域暂不支持</string>
+    <string name="main_cannot_pass_account">拥有者已设置不能通过账号密码登录</string>
+    <string name="main_setting_step">如需继续，请按以下方式设置：</string>
+    <string name="main_setting_step_1">请联系对应家庭/公司的拥有者，按以下路径设置“允许获取智汀云盘凭证”</string>
+    <string name="main_setting_step_1_note">路径：专业版-智慧中心-设备详情-高级设置-用户凭证-允许获取</string>
+    <string name="main_setting_step_2">返回登录页面，通过“智汀家庭云”APP授权登录</string>
+    <string name="main_know">知道了</string>
 
     <string name="home_file">文件</string>
     <string name="home_share">共享</string>
     <string name="home_download">下载</string>
     <string name="home_move">移动到</string>
     <string name="home_copy">复制到</string>
+    <string name="home_review">查看</string>
     <string name="home_rename">重命名</string>
     <string name="home_remove">删除</string>
     <string name="home_create_file">新建文件夹</string>
@@ -53,6 +68,7 @@
     <string name="home_please_input_name">请输入名称</string>
     <string name="home_upload_list">上传列表</string>
     <string name="home_download_list">下载列表</string>
+    <string name="home_backup_list">备份列表</string>
     <string name="home_uploading">正在上传（%s）</string>
     <string name="home_download_count">正在下载（%s）</string>
     <string name="home_uploaded">上传完成（%s）</string>
@@ -66,9 +82,20 @@
     <string name="home_wait_download">等待下载</string>
     <string name="home_wait_upload_error">上传失败</string>
     <string name="home_share_to_me">共享给我</string>
+    <string name="home_backup_fail">备份失败（%s）</string>
+    <string name="home_backup_on">正在进行（%s）</string>
+    <string name="home_backup_record">备份记录（%s）</string>
+    <string name="home_all_retry">全部重试</string>
+    <string name="home_all_pause">全部暂停</string>
+    <string name="home_clear">清空</string>
+    <string name="home_remove_backup_tip">提示</string>
+    <string name="home_remove_backup_content">仅删除记录，不会删除已备份到云盘的文件</string>
 
     <string name="mine_storage_manager">存储管理</string>
     <string name="mine_file_manager">文件夹管理</string>
+    <string name="mine_download_setting">下载设置</string>
+    <string name="mine_clear_cache">清除缓存</string>
+    <string name="mine_backup_manager">备份管理</string>
     <string name="mine_logout">退出登录</string>
     <string name="mine_find_usable_disk">发现%s个可用硬盘，请添加到存储池</string>
     <string name="mine_storage_pool_list">存储池列表</string>
@@ -194,6 +221,13 @@
     <string name="mine_available_capacity">可用容量：</string>
     <string name="mine_not_input_pwd">未输入密码</string>
     <string name="mine_storage_pool_name_not_repeat">存储池名称不能重复</string>
+    <string name="mine_system_setting">系统设置</string>
+    <string name="mine_auto_backup">自动备份</string>
+    <string name="mine_permit_auto_backup">允许后台自动备份</string>
+    <string name="mine_picture_auto_backup">相册自动备份</string>
+    <string name="mine_video_auto_backup">视频自动备份</string>
+    <string name="mine_file_auto_backup">文档自动备份</string>
+    <string name="mine_audio_auto_backup">音频自动备份</string>
 
     <string name="serial_number_1">1、</string>
     <string name="serial_number_2">2、</string>
@@ -207,8 +241,12 @@
     <string name="serial_number_4_content">“写”：包括新建文件夹、上传、重命名、共享、 下载的权限。</string>
     <string name="serial_number_5_content">“删”：包括移动、删除的权限。</string>
 
+    <string name="common_look">查看</string>
     <string name="common_cancel">取消</string>
+    <string name="common_pause">暂停</string>
+    <string name="common_resume">继续</string>
     <string name="common_confirm">确定</string>
+    <string name="common_download">下载</string>
     <string name="common_confirm_del">确定删除吗？</string>
     <string name="common_exit_tip">再点击一次退出</string>
     <string name="common_tips">提示</string>
@@ -225,4 +263,11 @@
     <string name="warm_tips_content">欢迎使用“智汀云盘”！\n我们非常重视您的个人信息和隐私保护。在您使用“智汀云盘”服务之前，请仔细阅读、充分理解并同意智汀云盘的《用户协议》和《隐私协议》</string>
     <string name="disagree">不同意</string>
     <string name="agree">同意</string>
+    <string name="common_delete">删除</string>
+    <string name="home_all_start_upload">全部上传</string>
+    <string name="home_all_stop_upload">全部暂停</string>
+    <string name="home_all_start_download">全部下载</string>
+    <string name="home_all_stop_download">全部暂停</string>
+    <string name="common_user_traffic_tip">当前正在使用移动流量，使用会消耗较多 流量，是否继续</string>
+    <string name="mine_clear_cache_tips">确认清理应用缓存数据吗？</string>
 </resources>

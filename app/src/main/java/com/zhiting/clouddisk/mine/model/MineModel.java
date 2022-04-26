@@ -26,4 +26,13 @@ public class MineModel extends MineContract.Model {
     public Observable<BaseResponseEntity<MemberDetailBean>> getUserDetail(String scopeToken, int id) {
         return ApiServiceFactory.getApiService().getUserDetail(scopeToken, id);
     }
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @Override
+    public Observable<BaseResponseEntity<Object>> logout() {
+        return ApiServiceFactory.getApiService().logout();
+    }
 }

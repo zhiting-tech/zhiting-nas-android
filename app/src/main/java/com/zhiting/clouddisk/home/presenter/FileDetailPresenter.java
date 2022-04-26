@@ -2,7 +2,6 @@ package com.zhiting.clouddisk.home.presenter;
 
 import com.zhiting.clouddisk.db.FolderPassword;
 import com.zhiting.clouddisk.entity.FileListBean;
-import com.zhiting.clouddisk.entity.home.FileBean;
 import com.zhiting.clouddisk.entity.home.UploadCreateFileBean;
 import com.zhiting.clouddisk.home.contract.FileDetailContract;
 import com.zhiting.clouddisk.home.model.FileDetailModel;
@@ -12,10 +11,7 @@ import com.zhiting.clouddisk.request.ShareRequest;
 import com.zhiting.networklib.base.mvp.BasePresenter;
 import com.zhiting.networklib.base.mvp.RequestDataCallback;
 
-import java.util.List;
 import java.util.Map;
-
-import okhttp3.MultipartBody;
 
 public class FileDetailPresenter extends BasePresenter<FileDetailModel, FileDetailContract.View> implements FileDetailContract.Presenter {
 
@@ -23,7 +19,6 @@ public class FileDetailPresenter extends BasePresenter<FileDetailModel, FileDeta
     public FileDetailModel createModel() {
         return new FileDetailModel();
     }
-
 
     /**
      * 文件列表

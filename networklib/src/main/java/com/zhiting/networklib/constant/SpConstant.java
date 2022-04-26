@@ -10,4 +10,9 @@ public interface SpConstant {
     String COOKIE = "cookie";
     String TEMP_CHANNEL_API = "temp_channel_api";
     String IS_SA = "is_sa";
+    String BACKUP_AUTO = "backup_auto";
+    String ALBUM_AUTO = "album_auto";
+    String VIDEO_AUTO = "video_auto";
+    String FILE_AUTO = "file_auto";
+    String AUDIO_AUTO = "audio_auto";
 }
